@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h3>Register</h3>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">{{ form.as_p }}</fieldset>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">Sign Up</button>
+            </div>
+          </form>
+          <div class="border-top pt-3">
+            <small class="text-muted">
+              Already Have An Account?
+              <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
