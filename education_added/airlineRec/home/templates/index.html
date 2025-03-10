@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block content %}
+<!-- index.html -->
+<div class="container mt-5">
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome to Airlines Recruiting System</h1>
+    <p class="lead">Find the perfect match for airline industry positions.</p>
+    {% if user.is_authenticated %}
+    <p>You are logged in as {{ user.username }}</p>
+    {% if user.role == 'candidate' %}
+    <a href="{% url 'profile' %}" class="btn btn-primary">View Your Profile</a>
+    {% elif user.role == 'recruiter' %}
+    <a href="#" class="btn btn-primary">Manage Job Postings</a>
+    {% elif user.role == 'department_manager' %}
+    <a href="#" class="btn btn-primary">Review Candidates</a>
+    {% elif user.role == 'hr_coordinator' %}
+    <a href="#" class="btn btn-primary">Manage Onboarding</a>
+    {% endif %} {% else %}
+    <p>Please log in or register to continue.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
+    <a href="{% url 'register' %}" class="btn btn-success">Register</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

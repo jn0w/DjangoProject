@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>{{ user.username }}'s Profile</h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Role:</strong> {{ user.get_role_display }}</p>
+
+      {% if user.phone_number %}
+      <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+      {% endif %} {% if user.role == 'candidate' %}
+      <!-- Skills Section -->
+      <h4 class="mt-4">Skills</h4>
+      {% if candidate_skills %}
+      <ul class="list-group">
+        {% for candidate_skill in candidate_skills %}
+        <li class="list-group-item">
+          {{ candidate_skill.skill.name }} - {{
+          candidate_skill.get_proficiency_display }} ({{
+          candidate_skill.years_experience }} year(s))
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No skills added yet.</p>
+      {% endif %}
+
+      <a href="{% url 'manage_skills' %}" class="btn btn-primary mt-3"
+        >Manage Profile</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h3>Logged Out</h3>
+        </div>
+        <div class="card-body">
+          <p>You have been successfully logged out.</p>
+          <p>Redirecting to homepage...</p>
+          <p>
+            <a href="{% url 'home' %}">Click here</a> if you're not redirected
+            automatically.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+<!-- Auto-redirect after 3 seconds -->
+<meta http-equiv="refresh" content="3;url={% url 'home' %}" />

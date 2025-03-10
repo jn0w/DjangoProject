@@ -1,0 +1,240 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Manage Your Profile</h2>
+
+  <!-- Education Section -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4>Your Education</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group mb-3">
+          <label for="education_institution">Institution:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="education_institution"
+            name="education_institution"
+            value="{{ candidate.education_institution }}"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="education_degree">Degree/Course:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="education_degree"
+            name="education_degree"
+            value="{{ candidate.education_degree }}"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="education_field">Field of Study:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="education_field"
+            name="education_field"
+            value="{{ candidate.education_field }}"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="education_start_year">Start Year:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="education_start_year"
+            name="education_start_year"
+            value="{{ candidate.education_start_year }}"
+          />
+        </div>
+
+        <div class="form-check mb-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="education_currently_studying"
+            name="education_currently_studying"
+            {%
+            if
+            candidate.education_currently_studying
+            %}checked{%
+            endif
+            %}
+          />
+          <label class="form-check-label" for="education_currently_studying"
+            >I am currently studying here</label
+          >
+        </div>
+
+        <div class="form-group mb-3" id="end_year_group">
+          <label for="education_end_year">End Year:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="education_end_year"
+            name="education_end_year"
+            value="{{ candidate.education_end_year }}"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="certifications"
+            >Certifications & Additional Training:</label
+          >
+          <textarea
+            class="form-control"
+            id="certifications"
+            name="certifications"
+            rows="4"
+            placeholder="Enter one certification per line"
+          >
+{{ candidate.certifications }}</textarea
+          >
+        </div>
+
+        <button type="submit" name="update_education" class="btn btn-primary">
+          Update Education
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Skills Section -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4>Your Skills</h4>
+    </div>
+    <div class="card-body">
+      {% if candidate_skills %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Proficiency</th>
+            <th>Years Experience</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for candidate_skill in candidate_skills %}
+          <tr>
+            <td>{{ candidate_skill.skill.name }}</td>
+            <td>{{ candidate_skill.get_proficiency_display }}</td>
+            <td>{{ candidate_skill.years_experience }} year(s)</td>
+            <td>
+              <a
+                href="{% url 'delete_skill' candidate_skill.id %}"
+                class="btn btn-sm btn-danger"
+                >Remove</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>You haven't added any skills yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Add New Skill Section -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4>Add New Skill</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+          <label for="{{ skill_form.skill.id_for_label }}">Skill:</label>
+          {{ skill_form.skill }}
+        </div>
+        <div class="form-group mb-3">
+          <label for="{{ skill_form.proficiency.id_for_label }}"
+            >Proficiency:</label
+          >
+          {{ skill_form.proficiency }}
+        </div>
+        <div class="form-group mb-3">
+          <label for="{{ skill_form.years_experience.id_for_label }}"
+            >Years Experience:</label
+          >
+          {{ skill_form.years_experience }}
+        </div>
+        <button type="submit" name="add_skill" class="btn btn-primary">
+          Add Skill
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Skill Search -->
+  <div class="card">
+    <div class="card-header">
+      <h5>Search Skills</h5>
+    </div>
+    <div class="card-body">
+      <form method="GET" action="{% url 'manage_skills' %}">
+        <div class="input-group mb-3">
+          {{ search_form.search_term }}
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {% if skills %}
+      <div class="mt-3">
+        <h6>Available Skills:</h6>
+        <div class="row">
+          {% for skill in skills %}
+          <div class="col-md-4 mb-2">
+            <div class="card">
+              <div class="card-body py-2">
+                <h6 class="mb-0">{{ skill.name }}</h6>
+                <small class="text-muted">{{ skill.category }}</small>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle end year field based on "currently studying" checkbox
+  document.addEventListener("DOMContentLoaded", function () {
+    const isCurrentCheckbox = document.getElementById(
+      "education_currently_studying"
+    );
+    const endYearGroup = document.getElementById("end_year_group");
+
+    function toggleEndYear() {
+      if (isCurrentCheckbox.checked) {
+        endYearGroup.style.display = "none";
+      } else {
+        endYearGroup.style.display = "block";
+      }
+    }
+
+    // Initial setup
+    toggleEndYear();
+
+    // Add event listener for changes
+    isCurrentCheckbox.addEventListener("change", toggleEndYear);
+  });
+</script>
+{% endblock content %}
