@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Apply for: {{ job.title }}</h2>
+
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5>Job Details</h5>
+    </div>
+    <div class="card-body">
+      <p><strong>Department:</strong> {{ job.department }}</p>
+      <p><strong>Location:</strong> {{ job.location }}</p>
+      <p>
+        <strong>Application Deadline:</strong> {{ job.deadline|date:"F d, Y" }}
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h5>Submit Your Application</h5>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %} {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label"
+            >{{ field.label }}</label
+          >
+          {{ field }} {% if field.help_text %}
+          <div class="form-text">{{ field.help_text }}</div>
+          {% endif %} {% if field.errors %}
+          <div class="invalid-feedback d-block">
+            {% for error in field.errors %} {{ error }} {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="form-text mb-3">
+          Your profile information, education, and skills will be automatically
+          included with your application.
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Submit Application
+        </button>
+        <a href="{% url 'job_detail' job_id=job.id %}" class="btn btn-secondary"
+          >Cancel</a
+        >
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
