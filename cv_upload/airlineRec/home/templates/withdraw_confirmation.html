@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-warning">
+      <h3>Withdraw Application</h3>
+    </div>
+    <div class="card-body">
+      <p class="alert alert-warning">
+        Are you sure you want to withdraw your application for
+        <strong>{{ application.job.title }}</strong>?
+      </p>
+      <p>
+        This action cannot be undone. You would need to apply again if you
+        change your mind.
+      </p>
+
+      <form method="POST">
+        {% csrf_token %}
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-danger">
+            Yes, Withdraw My Application
+          </button>
+          <a href="{% url 'my_applications' %}" class="btn btn-secondary"
+            >Cancel</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

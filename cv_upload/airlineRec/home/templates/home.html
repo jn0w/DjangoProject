@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome to Airlines Recruiting System</h1>
+    <p class="lead">Find the perfect match for airline industry positions.</p>
+    <hr class="my-4" />
+
+    {% if user.is_authenticated %}
+    <p>Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+
+    {% if user.role == 'candidate' %}
+    <p>Browse available positions and apply to jobs that match your skills.</p>
+    <div class="mt-4">
+      <a href="{% url 'job_list' %}" class="btn btn-primary mr-2"
+        >Browse Jobs</a
+      >
+      <a href="{% url 'manage_skills' %}" class="btn btn-outline-primary"
+        >Update Profile</a
+      >
+    </div>
+    {% elif user.role == 'hr_coordinator' %}
+    <p>Manage job listings and review candidate applications.</p>
+    <div class="mt-4">
+      <a href="{% url 'job_list' %}" class="btn btn-primary mr-2"
+        >View All Jobs</a
+      >
+      <a href="{% url 'create_job' %}" class="btn btn-success">Post New Job</a>
+    </div>
+    {% else %}
+    <p>Welcome to the Airlines Recruiting System.</p>
+    <a href="{% url 'job_list' %}" class="btn btn-primary">Browse Jobs</a>
+    {% endif %} {% else %}
+    <p>Connect with leading airlines and find your dream career in aviation.</p>
+    <div class="mt-4">
+      <a href="{% url 'register' %}" class="btn btn-primary mr-2">Sign Up</a>
+      <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Job Applications</h2>
+  
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <!-- Filters -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5>Filter Applications</h5>
+    </div>
+    <div class="card-body">
+      <form method="GET" class="row g-3">
+        <div class="col-md-5">
+          <label for="job_id" class="form-label">Filter by Job:</label>
+          <select name="job_id" id="job_id" class="form-select">
+            <option value="">All Jobs</option>
+            {% for job in jobs %}
+            <option value="{{ job.id }}" {% if current_job_id == job.id|stringformat:"i" %}selected{% endif %}>
+              {{ job.title }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="col-md-5">
+          <label for="status" class="form-label">Filter by Status:</label>
+          <select name="status" id="status" class="form-select">
+            <option value="">All Statuses</option>
+            {% for status_code, status_label in status_choices %}
+            <option value="{{ status_code }}" {% if current_status == status_code %}selected{% endif %}>
+              {{ status_label }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Applications List -->
+  {% if applications %}
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Applicant</th>
+          <th>Job Position</th>
+          <th>Applied On</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in applications %}
+        <tr>
+          <td>{{ application.candidate.user.get_full_name|default:application.candidate.user.username }}</td>
+          <td>{{ application.job.title }}</td>
+          <td>{{ application.applied_at|date:"M d, Y" }}</td>
+          <td>
+            <span class="badge 
+              {% if application.status == 'pending' %}bg-secondary
+              {% elif application.status == 'reviewing' %}bg-info
+              {% elif application.status == 'interview' %}bg-primary
+              {% elif application.status == 'offered' %}bg-success
+              {% elif application.status == 'rejected' %}bg-danger
+              {% endif %}">
+              {{ application.get_status_display }}
+            </span>
+          </td>
+          <td>
+            <a href="{% url 'application_detail' application.id %}" class="btn btn-sm btn-info">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info">No applications found.</div>
+  {% endif %}
+</div>
+{% endblock %}
