@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ title }}</h2>
+    <a href="{% url 'staff_list' %}" class="btn btn-secondary"
+      >Back to Staff List</a
+    >
+  </div>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Create New HR Coordinator or Interviewer</h5>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+
+        <!-- Role Selection -->
+        <div class="mb-3">
+          <label for="role" class="form-label"
+            ><strong>Staff Role:</strong></label
+          >
+          <select name="role" id="role" class="form-select" required>
+            <option value="" selected disabled>Select a role</option>
+            {% for role_code, role_name in roles %}
+            <option value="{{ role_code }}">{{ role_name }}</option>
+            {% endfor %}
+          </select>
+          <div class="form-text">
+            Select whether to create an HR Coordinator or Interviewer account.
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- User Form -->
+        {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label"
+            >{{ field.label }}</label
+          >
+          {{ field }} {% if field.help_text %}
+          <div class="form-text">{{ field.help_text }}</div>
+          {% endif %} {% if field.errors %}
+          <div class="invalid-feedback d-block">
+            {% for error in field.errors %} {{ error }} {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

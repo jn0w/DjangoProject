@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>My Applications</h2>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %} {% if applications %}
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Department</th>
+          <th>Applied On</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in applications %}
+        <tr>
+          <td>{{ application.job.title }}</td>
+          <td>{{ application.job.department }}</td>
+          <td>{{ application.applied_at|date:"M d, Y" }}</td>
+          <td>
+            <span
+              class="badge text-dark {% if application.status == 'pending' %}bg-secondary{% elif application.status == 'reviewing' %}bg-info{% elif application.status == 'interview' %}bg-primary{% elif application.status == 'offered' %}bg-success{% elif application.status == 'rejected' %}bg-danger{% elif application.status == 'withdrawn' %}bg-dark{% elif application.status == 'accepted' %}bg-success{% endif %}"
+            >
+              {{ application.get_status_display }}
+            </span>
+          </td>
+          <td>
+            <a
+              href="{% url 'job_detail' job_id=application.job.id %}"
+              class="btn btn-sm btn-outline-info"
+              >View Job</a
+            >
+
+            {% if application.status == 'pending' %}
+            <a
+              href="{% url 'edit_application' application.id %}"
+              class="btn btn-sm btn-outline-primary"
+              >Edit</a
+            >
+            <a
+              href="{% url 'withdraw_application' application.id %}"
+              class="btn btn-sm btn-outline-danger"
+              >Withdraw</a
+            >
+            {% endif %} {% if application.status == 'reviewing' %}
+            <a
+              href="{% url 'edit_application' application.id %}"
+              class="btn btn-sm btn-outline-primary"
+              >Edit</a
+            >
+            <a
+              href="{% url 'withdraw_application' application.id %}"
+              class="btn btn-sm btn-outline-danger"
+              >Withdraw</a
+            >
+            {% endif %} {% if application.status == 'interview' %}
+            <a
+              href="{% url 'candidate_view_interview' application.id %}"
+              class="btn btn-sm btn-outline-success"
+              >View Interview</a
+            >
+            {% endif %} {% if application.status == 'offered' %}
+            <a
+              href="{% url 'job_offer_response' application.id %}"
+              class="btn btn-sm btn-success"
+              >Respond to Offer</a
+            >
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <p>You haven't applied for any jobs yet.</p>
+    <a href="{% url 'job_list' %}" class="btn btn-primary mt-2">Browse Jobs</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

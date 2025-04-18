@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>{{ title }}</h2>
+
+  <div class="card">
+    <div class="card-header">
+      <h5>Interview Details</h5>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="{{ form.scheduled_date.id_for_label }}"
+            >Scheduled Date & Time:</label
+          >
+          {{ form.scheduled_date }} {% if form.scheduled_date.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.scheduled_date.errors }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label>Online Interview</label>
+          <p class="form-text">This interview will be conducted online.</p>
+        </div>
+
+        <div id="meeting-link-group" class="form-group">
+          <label for="{{ form.meeting_link.id_for_label }}"
+            >Meeting Link:</label
+          >
+          {{ form.meeting_link }} {% if form.meeting_link.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.meeting_link.errors }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.interviewer.id_for_label }}"
+            >Assign Interviewer:</label
+          >
+          {{ form.interviewer }}
+          <small class="form-text text-muted">
+            {{ form.interviewer.help_text }}
+          </small>
+          {% if form.interviewer.errors %}
+          <div class="invalid-feedback d-block">
+            {{ form.interviewer.errors }}
+          </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Interview</button>
+        <a href="{% url 'interview_list' %}" class="btn btn-outline-secondary"
+          >Cancel</a
+        >
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

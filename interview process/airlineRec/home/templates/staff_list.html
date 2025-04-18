@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ title }}</h2>
+    <a href="{% url 'create_staff' %}" class="btn btn-primary">Add New Staff</a>
+  </div>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- HR Coordinators Section -->
+  <h3 class="mt-4 mb-3">HR Coordinators</h3>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Date Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in staff_users %} {% if user.role == 'hr_coordinator' %}
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.get_full_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone_number|default:"-" }}</td>
+          <td>{{ user.date_joined|date:"M d, Y" }}</td>
+        </tr>
+        {% endif %} {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Interviewers Section -->
+  <h3 class="mt-5 mb-3">Interviewers</h3>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Date Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in staff_users %} {% if user.role == 'interviewer' %}
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.get_full_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone_number|default:"-" }}</td>
+          <td>{{ user.date_joined|date:"M d, Y" }}</td>
+        </tr>
+        {% endif %} {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+  </div>
+</div>
+{% endblock %}

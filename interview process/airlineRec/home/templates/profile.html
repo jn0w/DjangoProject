@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>{{ user.username }}'s Profile</h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Role:</strong> {{ user.get_role_display }}</p>
+
+      {% if user.phone_number %}
+      <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+      {% endif %} {% if user.role == 'candidate' %}
+      <!-- Education Section -->
+      <h4 class="mt-4">Education</h4>
+      {% if candidate.education_institution %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Institution</th>
+            <th>Degree/Course</th>
+            <th>Field of Study</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ candidate.education_institution }}</td>
+            <td>{{ candidate.education_degree }}</td>
+            <td>{{ candidate.education_field }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {% if candidate.certifications %}
+      <h5>Certifications</h5>
+      <ul class="list-group mb-4">
+        {% for certification in candidate.certifications.split %}
+        <li class="list-group-item">{{ certification }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% else %}
+      <p>No education details added yet.</p>
+      {% endif %}
+
+      <!-- Skills Section -->
+      <h4 class="mt-4">Skills</h4>
+      {% if candidate_skills %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Proficiency</th>
+            <th>Experience</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for candidate_skill in candidate_skills %}
+          <tr>
+            <td>{{ candidate_skill.skill.name }}</td>
+            <td>{{ candidate_skill.get_proficiency_display }}</td>
+            <td>{{ candidate_skill.years_experience }} year(s)</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No skills added yet.</p>
+      {% endif %}
+
+      <a href="{% url 'manage_skills' %}" class="btn btn-primary mt-3"
+        >Manage Profile</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

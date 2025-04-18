@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Interviews</h2>
+  
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <div class="mb-4">
+    <form method="GET" class="form-inline">
+      <div class="input-group">
+        <select name="status" class="form-control">
+          <option value="">-- All Statuses --</option>
+          {% for value, label in status_choices %}
+          <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-outline-secondary">Filter</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  {% if interviews %}
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Candidate</th>
+          <th>Job Position</th>
+          <th>Date & Time</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for interview in interviews %}
+        <tr>
+          <td>{{ interview.application.candidate.user.get_full_name }}</td>
+          <td>{{ interview.application.job.title }}</td>
+          <td>{{ interview.scheduled_date|date:"M d, Y - H:i" }}</td>
+          <td>
+            <span class="badge bg-primary">Online</span>  
+          </td>
+          <td>
+            <span class="badge {% if interview.status == 'scheduled' %}bg-info{% elif interview.status == 'completed' %}bg-success{% elif interview.status == 'cancelled' %}bg-danger{% else %}bg-warning{% endif %}">
+              {{ interview.get_status_display }}
+            </span>
+          </td>
+          <td>
+            <a href="{% url 'interview_detail' interview.id %}" class="btn btn-sm btn-info">View</a>
+            
+            {% if user.role == 'recruiter' and interview.recruiter == user and interview.status == 'scheduled' %}
+            <a href="{% url 'update_interview' interview.id %}" class="btn btn-sm btn-primary">Edit</a>
+            {% endif %}
+
+            {% if user.role == 'interviewer' and interview.interviewer == user and interview.status == 'scheduled' %}
+            <a href="{% url 'interviewer_feedback' interview.id %}" class="btn btn-sm btn-success">Add Feedback</a>
+            {% endif %}
+            
+            {% if user.role == 'interviewer' and interview.interviewer == user and interview.status == 'completed' and not interview.interviewer_feedback %}
+            <a href="{% url 'interviewer_feedback' interview.id %}" class="btn btn-sm btn-success">Add Feedback</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info">No interviews found.</div>
+  {% endif %}
+</div>
+{% endblock %}
