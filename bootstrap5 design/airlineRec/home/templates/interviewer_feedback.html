@@ -1,0 +1,177 @@
+{% extends "base.html" %} {% load django_bootstrap5 %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-clipboard-check me-2"></i>Interviewer Feedback</h2>
+    <a
+      href="{% url 'interview_detail' interview.id %}"
+      class="btn btn-outline-secondary"
+    >
+      <i class="fas fa-arrow-left me-1"></i> Back to Interview
+    </a>
+  </div>
+
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-info-circle me-2"></i>Interview Information
+          </h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex">
+              <div class="fw-bold text-primary" style="width: 130px">
+                <i class="fas fa-user me-2"></i>Candidate:
+              </div>
+              <div>
+                {{ interview.application.candidate.user.get_full_name }}
+              </div>
+            </li>
+            <li class="list-group-item d-flex">
+              <div class="fw-bold text-primary" style="width: 130px">
+                <i class="fas fa-briefcase me-2"></i>Job Position:
+              </div>
+              <div>{{ interview.application.job.title }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+              <div class="fw-bold text-primary" style="width: 130px">
+                <i class="fas fa-calendar-alt me-2"></i>Date & Time:
+              </div>
+              <div>{{ interview.scheduled_date|date:"F d, Y - H:i" }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-comment-dots me-2"></i>Provide Feedback
+          </h5>
+        </div>
+        <div class="card-body">
+          <form
+            method="POST"
+            action="{% url 'interviewer_feedback' interview.id %}"
+          >
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label
+                for="{{ form.status.id_for_label }}"
+                class="form-label fw-bold"
+              >
+                <i class="fas fa-check-circle me-2"></i>Interview Status:
+              </label>
+              <div class="input-group">{{ form.status }}</div>
+              {% if form.status.errors %}
+              <div class="text-danger mt-1">{{ form.status.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label
+                for="{{ form.interviewer_rating.id_for_label }}"
+                class="form-label fw-bold"
+              >
+                <i class="fas fa-star me-2"></i>Rating (1-5):
+              </label>
+              <div class="input-group">{{ form.interviewer_rating }}</div>
+              <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>1 = Poor, 2 = Below
+                Average, 3 = Average, 4 = Good, 5 = Excellent
+              </div>
+              {% if form.interviewer_rating.errors %}
+              <div class="text-danger mt-1">
+                {{ form.interviewer_rating.errors }}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label
+                for="{{ form.interviewer_feedback.id_for_label }}"
+                class="form-label fw-bold"
+              >
+                <i class="fas fa-comment me-2"></i>Feedback:
+              </label>
+              <div class="input-group">{{ form.interviewer_feedback }}</div>
+              {% if form.interviewer_feedback.errors %}
+              <div class="text-danger mt-1">
+                {{ form.interviewer_feedback.errors }}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              <label
+                for="{{ form.recommendation.id_for_label }}"
+                class="form-label fw-bold"
+              >
+                <i class="fas fa-thumbs-up me-2"></i>Recommendation:
+              </label>
+              <div class="input-group">{{ form.recommendation }}</div>
+              {% if form.recommendation.errors %}
+              <div class="text-danger mt-1">
+                {{ form.recommendation.errors }}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <a
+                href="{% url 'interview_detail' interview.id %}"
+                class="btn btn-outline-secondary"
+              >
+                <i class="fas fa-times me-1"></i> Cancel
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane me-1"></i> Submit Feedback
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-primary {
+    background-color: #2c3e50 !important;
+  }
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+  .btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+  }
+  .text-primary {
+    color: #3498db !important;
+  }
+</style>
+{% endblock %}

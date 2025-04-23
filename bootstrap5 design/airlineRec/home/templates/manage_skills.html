@@ -1,0 +1,554 @@
+{% extends "base.html" %} {% block content %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="border-bottom pb-3 mb-4">
+        <i class="fas fa-user-edit text-airline me-2"></i>Manage Your Profile
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-lg-5">
+      <!-- Resume Upload Section -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light py-3">
+          <h4 class="mb-0">
+            <i class="fas fa-file-pdf text-airline me-2"></i>Your Resume
+          </h4>
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Resume status message -->
+            <div
+              class="alert {% if candidate.resume %}alert-success{% else %}alert-warning{% endif %} shadow-sm"
+            >
+              {% if candidate.resume %}
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                  <p class="mb-1">
+                    <i class="fas fa-check-circle me-2"></i>Current resume:
+                    <strong>{{ candidate.resume.name|slice:"8:" }}</strong>
+                  </p>
+                </div>
+                <a
+                  href="{{ candidate.resume.url }}"
+                  class="btn btn-sm btn-airline"
+                  target="_blank"
+                >
+                  <i class="fas fa-eye me-1"></i>View
+                </a>
+              </div>
+              {% endif %} {% if not candidate.resume %}
+              <p class="mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>You haven't
+                uploaded a resume yet. Upload one to improve your applications!
+              </p>
+              {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="id_resume" class="form-label"
+                >Upload/Replace Resume:</label
+              >
+              <div class="input-group">
+                {{ resume_form.resume }}
+                <button
+                  type="submit"
+                  name="update_resume"
+                  class="btn btn-airline"
+                >
+                  <i class="fas fa-upload me-1"></i>Upload
+                </button>
+              </div>
+              <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>Accepted formats: PDF,
+                DOC, DOCX (Max size: 5MB)
+              </div>
+              <div class="invalid-feedback d-block">
+                {{ resume_form.resume.errors|join:" " }}
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light py-3">
+          <h4 class="mb-0">
+            <i class="fas fa-tools text-airline me-2"></i>Your Skills
+          </h4>
+        </div>
+        <div class="card-body">
+          {% if candidate_skills %}
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Skill</th>
+                  <th>Proficiency</th>
+                  <th>Experience</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for candidate_skill in candidate_skills %}
+                <tr>
+                  <td>{{ candidate_skill.skill.name }}</td>
+                  <td>
+                    <!-- Using the simplest approach possible -->
+                    <span class="badge bg-primary">
+                      {{ candidate_skill.proficiency }}
+                    </span>
+                  </td>
+                  <td>{{ candidate_skill.years_experience }} year(s)</td>
+                  <td>
+                    <a
+                      href="{% url 'delete_skill' candidate_skill.id %}"
+                      class="btn btn-sm btn-outline-danger"
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="alert alert-info mb-0">
+            <i class="fas fa-info-circle me-2"></i>You haven't added any skills
+            yet.
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-lg-7">
+      <!-- Education Section -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light py-3">
+          <h4 class="mb-0">
+            <i class="fas fa-graduation-cap text-airline me-2"></i>Your
+            Education
+          </h4>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="education_institution" class="form-label"
+                  >Institution:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="education_institution"
+                  name="education_institution"
+                  value="{{ candidate.education_institution }}"
+                  placeholder="e.g., Stanford University"
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="education_degree" class="form-label"
+                  >Degree/Course:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="education_degree"
+                  name="education_degree"
+                  value="{{ candidate.education_degree }}"
+                  placeholder="e.g., Bachelor of Science"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="education_field" class="form-label"
+                  >Field of Study:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="education_field"
+                  name="education_field"
+                  value="{{ candidate.education_field }}"
+                  placeholder="e.g., Computer Science"
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="education_start_year" class="form-label"
+                  >Start Year:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="education_start_year"
+                  name="education_start_year"
+                  value="{{ candidate.education_start_year }}"
+                  placeholder="e.g., 2019"
+                />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="education_currently_studying"
+                  name="education_currently_studying"
+                  {%
+                  if
+                  candidate.education_currently_studying
+                  %}checked{%
+                  endif
+                  %}
+                />
+                <label
+                  class="form-check-label"
+                  for="education_currently_studying"
+                >
+                  I am currently studying here
+                </label>
+              </div>
+            </div>
+
+            <div class="mb-3" id="end_year_group">
+              <label for="education_end_year" class="form-label"
+                >End Year:</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="education_end_year"
+                name="education_end_year"
+                value="{{ candidate.education_end_year }}"
+                placeholder="e.g., 2023"
+              />
+            </div>
+
+            <div class="d-grid">
+              <button
+                type="submit"
+                name="update_education"
+                class="btn btn-airline"
+              >
+                <i class="fas fa-save me-2"></i>Update Education
+              </button>
+            </div>
+          </form>
+
+          <!-- Certifications section - converted to accordion -->
+          <div class="mt-4 pt-3 border-top">
+            <h5 class="mb-3">
+              <i class="fas fa-certificate text-airline me-2"></i>Certifications
+              & Additional Training
+            </h5>
+
+            <!-- Certifications - accordion style display -->
+            <div class="accordion mb-3" id="certificationsAccordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingCertifications">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseCertifications"
+                    aria-expanded="true"
+                    aria-controls="collapseCertifications"
+                  >
+                    <i class="fas fa-certificate me-2"></i>
+                    <strong>Your Certifications</strong>
+                    {% if candidate.certifications %}
+                    <span class="ms-2 badge bg-airline rounded-pill"
+                      >Active</span
+                    >
+                    {% else %}
+                    <span class="ms-2 badge bg-secondary rounded-pill"
+                      >None</span
+                    >
+                    {% endif %}
+                  </button>
+                </h2>
+                <div
+                  id="collapseCertifications"
+                  class="accordion-collapse collapse show"
+                  aria-labelledby="headingCertifications"
+                  data-bs-parent="#certificationsAccordion"
+                >
+                  <div class="accordion-body">
+                    {% if candidate.certifications %}
+                    <div class="p-2">
+                      <pre class="mb-0 certification-content">
+{{ candidate.certifications }}</pre
+                      >
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-0">
+                      <i class="fas fa-info-circle me-2"></i>No certifications
+                      added yet. Add your certifications below to enhance your
+                      profile.
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form to add/update certifications -->
+            <form method="POST" class="mt-3">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label for="certifications" class="form-label"
+                  >Update Certifications:</label
+                >
+                <textarea
+                  class="form-control"
+                  id="certifications"
+                  name="certifications"
+                  rows="4"
+                  placeholder="Enter one certification per line"
+                >
+{{ candidate.certifications }}</textarea
+                >
+              </div>
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  name="update_certifications"
+                  class="btn btn-airline"
+                >
+                  <i class="fas fa-save me-2"></i>Update Certifications
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Skill Section -->
+      <div class="card shadow-sm mb-4" id="add-skill-section">
+        <div class="card-header bg-light py-3">
+          <h4 class="mb-0">
+            <i class="fas fa-plus-circle text-airline me-2"></i>Add New Skill
+          </h4>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label
+                  for="{{ skill_form.skill.id_for_label }}"
+                  class="form-label"
+                  >Skill:</label
+                >
+                {{ skill_form.skill }}
+              </div>
+              <div class="col-md-4 mb-3">
+                <label
+                  for="{{ skill_form.proficiency.id_for_label }}"
+                  class="form-label"
+                  >Proficiency:</label
+                >
+                {{ skill_form.proficiency }}
+              </div>
+              <div class="col-md-3 mb-3">
+                <label
+                  for="{{ skill_form.years_experience.id_for_label }}"
+                  class="form-label"
+                  >Years:</label
+                >
+                {{ skill_form.years_experience }}
+              </div>
+            </div>
+            <div class="d-grid">
+              <button type="submit" name="add_skill" class="btn btn-airline">
+                <i class="fas fa-plus me-2"></i>Add Skill
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Skill Search -->
+      <div class="card shadow-sm">
+        <div
+          class="card-header bg-light py-3 d-flex justify-content-between align-items-center"
+        >
+          <h4 class="mb-0">
+            <i class="fas fa-search text-airline me-2"></i>Browse Skills
+          </h4>
+        </div>
+        <div class="card-body">
+          <!-- Search form -->
+          <form method="GET" action="{% url 'manage_skills' %}">
+            <div class="input-group mb-4">
+              {{ search_form.search_term }}
+              <button class="btn btn-airline" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+
+          <!-- Skills organized by category -->
+          <div class="mt-3">
+            {% if all_skills %}
+            <!-- Using pre-processed category list from view -->
+            <div class="accordion" id="skillsAccordion">
+              {% for category_name, skills_list in category_list %}
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                  <button
+                    class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ forloop.counter }}"
+                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                    aria-controls="collapse{{ forloop.counter }}"
+                  >
+                    <i class="fas fa-tag me-2"></i
+                    ><strong>{{ category_name }}</strong>
+                    <span class="ms-2 badge bg-airline rounded-pill"
+                      >{{ skills_list|length }}</span
+                    >
+                  </button>
+                </h2>
+                <div
+                  id="collapse{{ forloop.counter }}"
+                  class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                  aria-labelledby="heading{{ forloop.counter }}"
+                  data-bs-parent="#skillsAccordion"
+                >
+                  <div class="accordion-body">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped">
+                        <thead class="table-light">
+                          <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for skill in skills_list %}
+                          <tr>
+                            <td><strong>{{ skill.name }}</strong></td>
+                            <td>{{ skill.description|truncatechars:100 }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>No skills have been added
+              to the system yet.
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Search Results Section -->
+          {% if skills %}
+          <div class="mt-4">
+            <h5 class="border-bottom pb-2 mb-3">Search Results:</h5>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for skill in skills %}
+                  <tr>
+                    <td><strong>{{ skill.name }}</strong></td>
+                    <td>
+                      <span class="badge bg-light text-dark"
+                        >{{ skill.category }}</span
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle end year field based on "currently studying" checkbox
+  document.addEventListener("DOMContentLoaded", function () {
+    const isCurrentCheckbox = document.getElementById(
+      "education_currently_studying"
+    );
+    const endYearGroup = document.getElementById("end_year_group");
+
+    function toggleEndYear() {
+      if (isCurrentCheckbox.checked) {
+        endYearGroup.style.display = "none";
+      } else {
+        endYearGroup.style.display = "block";
+      }
+    }
+
+    // Initial setup
+    toggleEndYear();
+
+    // Add event listener for changes
+    isCurrentCheckbox.addEventListener("change", toggleEndYear);
+  });
+</script>
+
+<style>
+  .certification-content {
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #212529;
+  }
+
+  .highlight-section {
+    animation: highlight-pulse 1.5s;
+  }
+
+  @keyframes highlight-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(0, 51, 102, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(0, 51, 102, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(0, 51, 102, 0);
+    }
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "base.html" %} {% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="fas fa-users-cog me-2"></i>{{ title }}</h2>
+    <a href="{% url 'create_staff' %}" class="btn btn-airline">
+      <i class="fas fa-user-plus me-2"></i>Add New Staff
+    </a>
+  </div>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- HR Coordinators Section -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-header bg-airline text-white py-3">
+      <h3 class="mb-0"><i class="fas fa-user-tie me-2"></i>HR Coordinators</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in staff_users %} {% if user.role == 'hr_coordinator' %}
+            <tr>
+              <td>
+                <i class="fas fa-user me-1 text-airline"></i>{{ user.username }}
+              </td>
+              <td>{{ user.get_full_name }}</td>
+              <td>
+                <a href="mailto:{{ user.email }}" class="text-decoration-none"
+                  >{{ user.email }}</a
+                >
+              </td>
+              <td>{{ user.phone_number|default:"-" }}</td>
+              <td>{{ user.date_joined|date:"M d, Y" }}</td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group">
+                  <a
+                    href="{% url 'edit_staff' user.id %}"
+                    class="btn btn-outline-secondary"
+                    title="Edit"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    title="Delete"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% endif %} {% empty %}
+            <tr>
+              <td colspan="6" class="text-center py-4">
+                No HR Coordinators found
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interviewers Section -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-airline text-white py-3">
+      <h3 class="mb-0"><i class="fas fa-user-check me-2"></i>Interviewers</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in staff_users %} {% if user.role == 'interviewer' %}
+            <tr>
+              <td>
+                <i class="fas fa-user me-1 text-airline"></i>{{ user.username }}
+              </td>
+              <td>{{ user.get_full_name }}</td>
+              <td>
+                <a href="mailto:{{ user.email }}" class="text-decoration-none"
+                  >{{ user.email }}</a
+                >
+              </td>
+              <td>{{ user.phone_number|default:"-" }}</td>
+              <td>{{ user.date_joined|date:"M d, Y" }}</td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group">
+                  <a
+                    href="{% url 'edit_staff' user.id %}"
+                    class="btn btn-outline-secondary"
+                    title="Edit"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    title="Delete"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% endif %} {% empty %}
+            <tr>
+              <td colspan="6" class="text-center py-4">
+                No Interviewers found
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'home' %}" class="btn btn-secondary">
+      <i class="fas fa-arrow-left me-2"></i>Back to Home
+    </a>
+  </div>
+</div>
+{% endblock %}

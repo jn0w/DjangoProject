@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Interview Details</h2>
+    <a href="{% url 'my_applications' %}" class="btn btn-secondary"
+      >Back to My Applications</a
+    >
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>Interview Details</h3>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Job Position</th>
+            <td>{{ interview.application.job.title }}</td>
+          </tr>
+          <tr>
+            <th>Interviewer</th>
+            <td>{{ interview.interviewer.get_full_name }}</td>
+          </tr>
+          <tr>
+            <th>Date & Time</th>
+            <td>{{ interview.scheduled_date|date:"F d, Y - H:i" }}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>{{ interview.get_status_display }}</td>
+          </tr>
+          <tr>
+            <th>Location</th>
+            <td>Online</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-info mt-4">
+        <p>
+          Your interview details are displayed above. Interviewer feedback is
+          shown below.
+        </p>
+      </div>
+
+      <h4 class="mt-4">Interviewer Feedback</h4>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Rating</th>
+            <td>
+              <span class="text-warning">★★★★★</span>
+              ({{ interview.interviewer_rating }}/5)
+            </td>
+          </tr>
+          <tr>
+            <th>Comments</th>
+            <td>{{ interview.interviewer_feedback }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

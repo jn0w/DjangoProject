@@ -1,0 +1,172 @@
+{% extends "base.html" %} {% block content %}
+<div class="container py-5">
+  <!-- Hero section -->
+  <div class="row align-items-center mb-5">
+    <div class="col-lg-6">
+      <h1 class="display-4 fw-bold mb-3">
+        Find Your Wings with Airlines Recruiting
+      </h1>
+      <p class="lead mb-4">
+        Connect with leading airlines and discover your perfect role in the
+        aviation industry. Whether you're an experienced pilot or just starting
+        your career, we have opportunities for you.
+      </p>
+
+      {% if user.is_authenticated %}
+      <div class="d-grid gap-2 d-md-flex">
+        {% if user.role == 'candidate' %}
+        <a href="{% url 'job_list' %}" class="btn btn-airline btn-lg me-md-2">
+          <i class="fas fa-search me-2"></i>Browse Jobs
+        </a>
+        <a
+          href="{% url 'manage_skills' %}"
+          class="btn btn-outline-secondary btn-lg"
+        >
+          <i class="fas fa-user-edit me-2"></i>Update Profile
+        </a>
+        {% elif user.role == 'hr_coordinator' %}
+        <a href="{% url 'job_list' %}" class="btn btn-airline btn-lg me-md-2">
+          <i class="fas fa-list me-2"></i>View All Jobs
+        </a>
+        <a href="{% url 'create_job' %}" class="btn btn-success btn-lg">
+          <i class="fas fa-plus-circle me-2"></i>Post New Job
+        </a>
+        {% else %}
+        <a href="{% url 'job_list' %}" class="btn btn-airline btn-lg">
+          <i class="fas fa-search me-2"></i>Browse Jobs
+        </a>
+        {% endif %}
+      </div>
+      {% else %}
+      <div class="d-grid gap-2 d-md-flex">
+        <a href="{% url 'register' %}" class="btn btn-airline btn-lg me-md-2">
+          <i class="fas fa-user-plus me-2"></i>Sign Up
+        </a>
+        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg">
+          <i class="fas fa-sign-in-alt me-2"></i>Login
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-lg-6 d-none d-lg-block text-center">
+      <img
+        src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+        class="img-fluid rounded shadow-lg"
+        alt="Airplane"
+        style="max-height: 350px"
+      />
+    </div>
+  </div>
+
+  <!-- Features section -->
+  <div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+      <h2 class="fw-bold">Why Choose Airlines Recruiting?</h2>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-plane fa-3x mb-3 text-airline"></i>
+          <h5 class="card-title">Top Airlines</h5>
+          <p class="card-text">
+            Connect with the world's leading airlines and find opportunities
+            across the aviation industry.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-search fa-3x mb-3 text-airline"></i>
+          <h5 class="card-title">Perfect Match</h5>
+          <p class="card-text">
+            Our advanced skills matching helps you find positions that fit your
+            qualifications perfectly.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-globe fa-3x mb-3 text-airline"></i>
+          <h5 class="card-title">Global Opportunities</h5>
+          <p class="card-text">
+            Discover aviation jobs worldwide with opportunities in various
+            locations and positions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if user.is_authenticated %}
+  <!-- Personalized content based on role -->
+  {% if user.role == 'candidate' %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">
+            Welcome back, {{ user.get_full_name|default:user.username }}!
+          </h3>
+          <p class="card-text">
+            Continue your job search or update your profile to match with the
+            best opportunities in aviation.
+          </p>
+          <div class="row mt-3">
+            <div class="col-sm-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-file-alt fa-2x mb-2 text-airline"></i>
+                  <h5 class="card-title">Resume</h5>
+                  <p class="card-text">
+                    {% if user.candidate_profile.resume %}
+                    <span class="text-success"
+                      ><i class="fas fa-check-circle"></i> Uploaded</span
+                    >
+                    {% else %}
+                    <span class="text-warning"
+                      ><i class="fas fa-exclamation-circle"></i> Not
+                      uploaded</span
+                    >
+                    {% endif %}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-clipboard-list fa-2x mb-2 text-airline"></i>
+                  <h5 class="card-title">Applications</h5>
+                  <p class="card-text">Check your current applications</p>
+                  <a
+                    href="{% url 'my_applications' %}"
+                    class="btn btn-sm btn-airline"
+                    >View</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-search fa-2x mb-2 text-airline"></i>
+                  <h5 class="card-title">Job Search</h5>
+                  <p class="card-text">Find your next opportunity</p>
+                  <a href="{% url 'job_list' %}" class="btn btn-sm btn-airline"
+                    >Browse</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %} {% endif %}
+</div>
+{% endblock %}

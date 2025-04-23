@@ -1,0 +1,1037 @@
+[
+  {
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+      "action_time": "2025-03-09T18:43:25.397Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "1",
+      "object_repr": "Commercial Pilot License",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+      "action_time": "2025-03-09T18:59:48.168Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "2",
+      "object_repr": "Multi-Engine Rating",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+      "action_time": "2025-03-09T19:00:14.965Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "3",
+      "object_repr": "Flight Planning",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+      "action_time": "2025-03-09T19:00:25.125Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "4",
+      "object_repr": "Navigation Systems",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+      "action_time": "2025-03-09T19:00:40.959Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "5",
+      "object_repr": "Cockpit Resource Management",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+      "action_time": "2025-03-09T19:00:59.781Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "6",
+      "object_repr": "Emergency Procedures",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+      "action_time": "2025-03-09T19:02:22.335Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "7",
+      "object_repr": "First Aid Certification",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+      "action_time": "2025-03-09T19:02:34.867Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "8",
+      "object_repr": "Food and Beverage Service",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+      "action_time": "2025-03-09T19:05:43.964Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "9",
+      "object_repr": "Avionics Systems",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+      "action_time": "2025-03-09T19:05:53.930Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "10",
+      "object_repr": "Aircraft Mechanics",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+      "action_time": "2025-03-09T19:06:16.263Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "11",
+      "object_repr": "Aircraft Electrical Systems",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+      "action_time": "2025-03-09T19:06:28.787Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "12",
+      "object_repr": "Ground Handling",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+      "action_time": "2025-03-09T19:06:43.095Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "13",
+      "object_repr": "Ramp Operations",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+      "action_time": "2025-03-09T19:06:54.991Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "14",
+      "object_repr": "Air Traffic Control",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+      "action_time": "2025-03-09T19:07:08.000Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "15",
+      "object_repr": "Baggage Handling Systems",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+      "action_time": "2025-03-09T19:07:26.158Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "16",
+      "object_repr": "De-icing Procedures",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+      "action_time": "2025-03-09T19:26:48.210Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "17",
+      "object_repr": "Reservation Systems",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+      "action_time": "2025-03-09T19:27:00.029Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "18",
+      "object_repr": "Ticketing",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+      "action_time": "2025-03-09T19:27:14.037Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "19",
+      "object_repr": "Complaint Resolution",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+      "action_time": "2025-03-09T19:29:28.079Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "20",
+      "object_repr": "SABRE System",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+      "action_time": "2025-03-09T19:29:48.891Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "21",
+      "object_repr": "Amadeus",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+      "action_time": "2025-03-09T19:29:58.859Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "22",
+      "object_repr": "Flight Management Systems",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+      "action_time": "2025-03-09T19:30:08.254Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "23",
+      "object_repr": "Aircraft Monitoring Software",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+      "action_time": "2025-03-09T19:31:10.689Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "24",
+      "object_repr": "Crew Scheduling",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+      "action_time": "2025-03-09T19:32:48.537Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "25",
+      "object_repr": "Revenue Management",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+      "action_time": "2025-03-09T19:32:58.339Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "26",
+      "object_repr": "Route Planning",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+      "action_time": "2025-03-09T19:33:07.350Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "27",
+      "object_repr": "Aviation Regulations",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+      "action_time": "2025-03-09T19:33:21.271Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "28",
+      "object_repr": "Human Resources Management",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+      "action_time": "2025-03-09T19:33:37.425Z",
+      "user": 1,
+      "content_type": 6,
+      "object_id": "29",
+      "object_repr": "Project Management",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+      "action_time": "2025-03-10T19:31:52.582Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "4",
+      "object_repr": "hr1 (HR Coordinator)",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+      "action_time": "2025-03-10T19:37:56.451Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "4",
+      "object_repr": "hr1 (HR Coordinator)",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+      "action_time": "2025-04-07T20:34:29.211Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "7",
+      "object_repr": "recruiter1 (recruiter)",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "shqfvy08ersf2r9y8qur10s9jwtgwbxw",
+    "fields": {
+      "session_data": ".eJxVjDsOwjAQRO_iGln-RdFS0nMGa9e7xgEUS3FSRdydWEoBxTTz3syuIm5riVuTJU6srsqqy29HmF4yd8BPnB9Vpzqvy0S6K_qkTd8ry_t2un8HBVvpa8ejBIdHYACUnEdEZpJsrHeQyAlaMQA-AQZHCc1BTEAKQ87Bq88XFyg5Bg:1u3E1B:Ueubzm6zhzvzNyzvlUPIP9G98e8vsaneHBDDlOnExGo",
+      "expire_date": "2025-04-25T13:02:01.600Z"
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$G2CMfbcN5jrcyGleBwvSjA$wGDukW/C53dgkxO6SH2xbBADk1tccPr1CZpA31G0UFQ=",
+      "last_login": "2025-04-11T13:02:01.500Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@admin.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-03-09T17:10:48.444Z",
+      "role": "candidate",
+      "phone_number": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$ORrOMQIKV9OHxhbdPtr7z1$8creuD7Rtgvm3Qjq+C8x0yQLD265rrBVPyIH5yQLnnE=",
+      "last_login": "2025-03-09T17:31:40.540Z",
+      "is_superuser": false,
+      "username": "test",
+      "first_name": "test",
+      "last_name": "test",
+      "email": "test@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-03-09T17:31:21.352Z",
+      "role": "candidate",
+      "phone_number": "123456789",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$aDYROzK90mgCdfQxC8djLU$riZRc2o/+5+1tATDUS8JnG6A7zpGDUB5EuGgPechM9U=",
+      "last_login": "2025-03-09T21:01:20.073Z",
+      "is_superuser": false,
+      "username": "test1",
+      "first_name": "test1",
+      "last_name": "test1",
+      "email": "test1@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-03-09T17:52:18.711Z",
+      "role": "candidate",
+      "phone_number": "1234567890",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$KoK1xLdaoKsGAzJRTWAJoI$s7hgDuuEFrF6Zw0zjNCQCsvo4fSajufmXvZhlrhmn5g=",
+      "last_login": "2025-04-10T18:55:43.995Z",
+      "is_superuser": false,
+      "username": "hr1",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "hr1@hr.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-03-10T19:43:06.482Z",
+      "role": "hr_coordinator",
+      "phone_number": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$KGoCo6C5DpTJmEn8UanQbJ$WdQYfbliKaP+i4xXqjbgzFePMEjslv1FOCHqSOkGyk4=",
+      "last_login": "2025-04-10T18:00:26.236Z",
+      "is_superuser": false,
+      "username": "g",
+      "first_name": "g",
+      "last_name": "g",
+      "email": "g@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-03-10T19:50:19.301Z",
+      "role": "candidate",
+      "phone_number": "123456789",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$1gEWUhhBtK8fvxwAeIUlhx$33u+0DmcEN4brwD8BbCO1GMB+EvsH2q4ioZjcHnW9rA=",
+      "last_login": "2025-04-10T18:56:23.980Z",
+      "is_superuser": false,
+      "username": "interviewer1",
+      "first_name": "John",
+      "last_name": "Interviewer",
+      "email": "interviewer1@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-03-24T19:26:00.332Z",
+      "role": "interviewer",
+      "phone_number": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$kiFc11TqG45enQ81kQETJ1$3QtCcDtsMofTVELCVdwqnHDTEmvqnOlVbomhn3NFj20=",
+      "last_login": "2025-04-10T18:55:22.168Z",
+      "is_superuser": false,
+      "username": "b",
+      "first_name": "b",
+      "last_name": "b",
+      "email": "b@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-04-10T18:08:33.743Z",
+      "role": "candidate",
+      "phone_number": "1234567890",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.user",
+    "pk": 10,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$j5ElT2P6GGH4elDi0ks7xS$C97xdXfsdVl+snMLeahXvG+eZG2sBzyfJUtBjD+fcXc=",
+      "last_login": "2025-04-10T18:56:15.767Z",
+      "is_superuser": false,
+      "username": "interviewer2",
+      "first_name": "Johhny",
+      "last_name": "Bravo",
+      "email": "interviewer2@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-04-10T18:53:08.804Z",
+      "role": "interviewer",
+      "phone_number": "1234567890",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 1,
+    "fields": {
+      "name": "Commercial Pilot License",
+      "description": "Description: FAA/CAA-certified ability to operate commercial aircraft",
+      "category": "Flight Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 2,
+    "fields": {
+      "name": "Multi-Engine Rating",
+      "description": "Certified to operate multi-engine aircraft",
+      "category": "Flight Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 3,
+    "fields": {
+      "name": "Flight Planning",
+      "description": "Ability to create efficient and safe flight plans",
+      "category": "Flight Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 4,
+    "fields": {
+      "name": "Navigation Systems",
+      "description": "Proficiency with aviation navigation systems and equipment",
+      "category": "Flight Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 5,
+    "fields": {
+      "name": "Cockpit Resource Management",
+      "description": "Effective coordination and communication in flight deck",
+      "category": "Flight Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 6,
+    "fields": {
+      "name": "Emergency Procedures",
+      "description": "Knowledge of airline safety and emergency protocols",
+      "category": "Cabin Crew"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 7,
+    "fields": {
+      "name": "First Aid Certification",
+      "description": "Certified to provide medical first aid",
+      "category": "Cabin Crew"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 8,
+    "fields": {
+      "name": "Food and Beverage Service",
+      "description": "Experience with in-flight meal and beverage service",
+      "category": "Cabin Crew"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 9,
+    "fields": {
+      "name": "Avionics Systems",
+      "description": "Knowledge of aircraft electronic systems",
+      "category": "Aircraft Maintenance"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 10,
+    "fields": {
+      "name": "Aircraft Mechanics",
+      "description": "Experience with aircraft mechanical systems repair",
+      "category": "Aircraft Maintenance"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 11,
+    "fields": {
+      "name": "Aircraft Electrical Systems",
+      "description": "Expertise in aircraft electrical components and systems",
+      "category": "Aircraft Maintenance"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 12,
+    "fields": {
+      "name": "Ground Handling",
+      "description": "Experience with aircraft ground support operations",
+      "category": "Airport Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 13,
+    "fields": {
+      "name": "Ramp Operations",
+      "description": "Knowledge of aircraft loading, unloading, and towing",
+      "category": "Airport Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 14,
+    "fields": {
+      "name": "Air Traffic Control",
+      "description": "Experience with ATC communications and procedures",
+      "category": "Airport Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 15,
+    "fields": {
+      "name": "Baggage Handling Systems",
+      "description": "Knowledge of baggage sorting and tracking systems",
+      "category": "Airport Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 16,
+    "fields": {
+      "name": "De-icing Procedures",
+      "description": "Experience with aircraft de-icing techniques and equipment",
+      "category": "Airport Operations"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 17,
+    "fields": {
+      "name": "Reservation Systems",
+      "description": "Proficiency with airline booking and reservation software",
+      "category": "Customer Service"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 18,
+    "fields": {
+      "name": "Ticketing",
+      "description": "Knowledge of airline ticketing procedures and regulations",
+      "category": "Customer Service"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 19,
+    "fields": {
+      "name": "Complaint Resolution",
+      "description": "Ability to address and resolve customer complaints effectively",
+      "category": "Customer Service"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 20,
+    "fields": {
+      "name": "SABRE System",
+      "description": "Experience with SABRE reservation system",
+      "category": "IT Systems"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 21,
+    "fields": {
+      "name": "Amadeus",
+      "description": "Proficiency with Amadeus booking platform",
+      "category": "IT Systems"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 22,
+    "fields": {
+      "name": "Flight Management Systems",
+      "description": "Knowledge of computerized aircraft navigation systems",
+      "category": "IT Systems"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 23,
+    "fields": {
+      "name": "Aircraft Monitoring Software",
+      "description": "Experience with aircraft performance monitoring tools",
+      "category": "IT Systems"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 24,
+    "fields": {
+      "name": "Crew Scheduling",
+      "description": "Experience with flight crew scheduling and management",
+      "category": "Management"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 25,
+    "fields": {
+      "name": "Revenue Management",
+      "description": "Knowledge of airline pricing and revenue optimization",
+      "category": "Management"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 26,
+    "fields": {
+      "name": "Route Planning",
+      "description": "Experience developing profitable airline routes",
+      "category": "Management"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 27,
+    "fields": {
+      "name": "Aviation Regulations",
+      "description": "Knowledge of FAA/CAA and international aviation regulations",
+      "category": "Management"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 28,
+    "fields": {
+      "name": "Human Resources Management",
+      "description": "Experience with aviation personnel management",
+      "category": "Management"
+    }
+  },
+  {
+    "model": "home.skill",
+    "pk": 29,
+    "fields": {
+      "name": "Project Management",
+      "description": "Certified in project management methodologies",
+      "category": "Management"
+    }
+  },
+  {
+    "model": "home.candidate",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "resume": "",
+      "experience_years": 0,
+      "education_institution": null,
+      "education_degree": null,
+      "education_field": null,
+      "education_start_year": null,
+      "education_end_year": null,
+      "education_currently_studying": false,
+      "certifications": null
+    }
+  },
+  {
+    "model": "home.candidate",
+    "pk": 2,
+    "fields": {
+      "user": 3,
+      "resume": "",
+      "experience_years": 0,
+      "education_institution": "tud",
+      "education_degree": "computer science",
+      "education_field": "computing",
+      "education_start_year": 2021,
+      "education_end_year": null,
+      "education_currently_studying": false,
+      "certifications": "cnna1,2"
+    }
+  },
+  {
+    "model": "home.candidate",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "resume": "",
+      "experience_years": 0,
+      "education_institution": "tud",
+      "education_degree": "computer science",
+      "education_field": "computing",
+      "education_start_year": 2021,
+      "education_end_year": null,
+      "education_currently_studying": true,
+      "certifications": "cnaa"
+    }
+  },
+  {
+    "model": "home.candidate",
+    "pk": 4,
+    "fields": {
+      "user": 6,
+      "resume": "resumes/Project_Spec_2025.pdf",
+      "experience_years": 0,
+      "education_institution": "ucd",
+      "education_degree": "bioengineer",
+      "education_field": "engineering",
+      "education_start_year": 2020,
+      "education_end_year": 2025,
+      "education_currently_studying": false,
+      "certifications": "netwroking "
+    }
+  },
+  {
+    "model": "home.candidate",
+    "pk": 5,
+    "fields": {
+      "user": 9,
+      "resume": "resumes/1Object_Oriented_Design_patterns.pdf",
+      "experience_years": 0,
+      "education_institution": "tdu",
+      "education_degree": "computer science",
+      "education_field": "tech",
+      "education_start_year": 2022,
+      "education_end_year": null,
+      "education_currently_studying": true,
+      "certifications": "ccna"
+    }
+  },
+  {
+    "model": "home.candidateskill",
+    "pk": 4,
+    "fields": {
+      "candidate": 2,
+      "skill": 2,
+      "proficiency": "intermediate",
+      "years_experience": 2
+    }
+  },
+  {
+    "model": "home.candidateskill",
+    "pk": 6,
+    "fields": {
+      "candidate": 5,
+      "skill": 16,
+      "proficiency": "intermediate",
+      "years_experience": 2
+    }
+  },
+  {
+    "model": "home.jobposting",
+    "pk": 1,
+    "fields": {
+      "title": "pilot",
+      "department": "flying",
+      "location": "dublin",
+      "description": "need a pilot now",
+      "requirements": "pilot license",
+      "salary_range": "50k-75k",
+      "posted_by": 5,
+      "posted_date": "2025-03-10T19:51:39.334Z",
+      "deadline": "2025-03-31T00:00:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "home.jobposting",
+    "pk": 3,
+    "fields": {
+      "title": "test",
+      "department": "test",
+      "location": "test",
+      "description": "test",
+      "requirements": "test",
+      "salary_range": "50k",
+      "posted_by": 5,
+      "posted_date": "2025-04-10T18:00:20.526Z",
+      "deadline": "2025-04-17T00:00:00Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "home.jobapplication",
+    "pk": 1,
+    "fields": {
+      "job": 1,
+      "candidate": 4,
+      "cover_letter": "",
+      "status": "accepted",
+      "applied_at": "2025-03-10T19:59:53.296Z"
+    }
+  },
+  {
+    "model": "home.jobapplication",
+    "pk": 5,
+    "fields": {
+      "job": 3,
+      "candidate": 5,
+      "cover_letter": "im the goat",
+      "status": "interview",
+      "applied_at": "2025-04-10T18:55:34.480Z"
+    }
+  },
+  {
+    "model": "home.jobinterview",
+    "pk": 2,
+    "fields": {
+      "application": 1,
+      "hr_coordinator": 5,
+      "interviewer": 8,
+      "scheduled_date": "2025-04-15T17:17:57.246Z",
+      "location": "",
+      "is_online": false,
+      "meeting_link": null,
+      "status": "completed",
+      "feedback": "",
+      "interviewer_feedback": "",
+      "rating": null,
+      "interviewer_rating": 5
+    }
+  },
+  {
+    "model": "home.jobinterview",
+    "pk": 4,
+    "fields": {
+      "application": 5,
+      "hr_coordinator": 5,
+      "interviewer": 10,
+      "scheduled_date": "2025-04-17T18:55:59.647Z",
+      "location": "",
+      "is_online": false,
+      "meeting_link": null,
+      "status": "scheduled",
+      "feedback": "",
+      "interviewer_feedback": "",
+      "rating": null,
+      "interviewer_rating": null
+    }
+  }
+]

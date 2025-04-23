@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      <h3>Delete Application</h3>
+    </div>
+    <div class="card-body">
+      <h4>Are you sure you want to delete this application?</h4>
+
+      <div class="mb-4">
+        <p>
+          <strong>Candidate:</strong> {{
+          application.candidate.user.get_full_name|default:application.candidate.user.username
+          }}
+        </p>
+        <p><strong>Job Position:</strong> {{ application.job.title }}</p>
+        <p>
+          <strong>Application Date:</strong> {{ application.applied_at|date:"F
+          d, Y" }}
+        </p>
+        <p><strong>Status:</strong> {{ application.get_status_display }}</p>
+      </div>
+
+      {% if has_interviews %}
+      <div class="alert alert-warning">
+        <p>
+          <strong>Warning:</strong> This application has interviews scheduled.
+          Deleting it will also remove all interview records.
+        </p>
+        <p>This action cannot be undone.</p>
+      </div>
+      {% else %}
+      <div class="alert alert-warning">
+        <p>This action cannot be undone.</p>
+      </div>
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %} {% if has_interviews %}
+        <div class="form-check mb-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="confirm_with_interviews"
+            id="confirm_with_interviews"
+            required
+          />
+          <label class="form-check-label" for="confirm_with_interviews">
+            I understand that all interview records for this application will be
+            deleted.
+          </label>
+        </div>
+        {% endif %}
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-danger">
+            Yes, Delete Application
+          </button>
+          <a
+            href="{% url 'application_detail' application.id %}"
+            class="btn btn-secondary"
+          >
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
