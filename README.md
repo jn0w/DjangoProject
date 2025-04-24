@@ -2,93 +2,76 @@
 
 Website URL: [https://jakub003.pythonanywhere.com/](https://jakub003.pythonanywhere.com/)
 
-AirlineRec is a comprehensive recruiting platform for airlines, allowing HR coordinators to post jobs, candidates to apply, and interviewers to conduct interviews and provide feedback.
+AirlineRec helps airlines hire new staff. HR posts jobs, candidates apply, and interviewers give feedback.
 
 ## Features
 
-- User roles: Candidates, HR Coordinators, and Interviewers
-- Job posting and management
+- Three user types: Candidates, HR Coordinators, and Interviewers
+- Post and manage job openings
 - Candidate profiles with skills and education
-- Application tracking system
-- Interview scheduling and feedback
-- Responsive design with Bootstrap 5
+- Track job applications
+- Schedule interviews and record feedback
+- Mobile-friendly design with Bootstrap 5
 
 ## Testing
 
-The application includes comprehensive automated tests covering models, views, forms, and user flows. Testing uses Django's built-in testing framework.
+The app has many tests to make sure everything works correctly.
 
-### Test Coverage
+### What I Test
 
-1. **Model Tests** - Testing database models and their relationships:
+1. **Models** - Testing the database:
 
-   - User roles and permissions
-   - Job posting creation and relationships
-   - Candidate profile and skills
-   - Application status tracking
-   - Interview scheduling and feedback
+   - User roles
+   - Job postings
+   - Candidate profiles
+   - Applications
+   - Interviews
 
-2. **View Tests** - Testing HTTP responses and template rendering:
+2. **Views** - Testing web pages:
 
-   - Home page and authentication views
-   - Job listing and details pages
-   - Application management
-   - Access control for protected views
+   - Login and home pages
+   - Job listings
+   - Application pages
+   - User access limits
 
-3. **Form Tests** - Testing form validation:
+3. **Forms** - Testing data entry:
 
-   - Job application forms
-   - Candidate skill forms
+   - Job applications
+   - Skill forms
    - Job posting forms
-   - Interview scheduling and feedback forms
+   - Interview forms
 
-4. **User Flow Tests** - Testing complete user journeys:
+4. **User Flows** - Testing common tasks:
 
-   - Job posting creation by HR
-   - Application submission by candidates
-   - Interview scheduling and execution
-   - Feedback submission by interviewers
+   - HR creating jobs
+   - Candidates applying
+   - Scheduling interviews
+   - Submitting feedback
 
-5. **Permission Tests** - Testing role-based access control:
-   - HR coordinator permissions
-   - Candidate permissions
-   - Interviewer permissions
+5. **Permissions** - Testing who can do what:
+   - What HR can access
+   - What candidates can access
+   - What interviewers can access
 
 ### Running Tests
 
-To run all tests:
+To run all tests with Django:
 
 ```bash
 python manage.py test home
 ```
 
-To run specific test classes:
-
-```bash
-python manage.py test home.tests.ModelTests
-python manage.py test home.tests.ViewTests
-python manage.py test home.tests.FormTests
-python manage.py test home.tests.UserFlowTests
-python manage.py test home.tests.PermissionTests
-```
-
-Alternatively, use the provided test runner script:
+Or use my simple test script:
 
 ```bash
 python run_tests.py
 ```
 
-You can also run specific test classes with the runner:
+This runs all tests and shows the results clearly.
 
-```bash
-python run_tests.py home.tests.ModelTests
-```
+## External Resources
 
-## Test-Driven Development
+This project uses some external libraries and resources. See `public/sources.txt` for details about:
 
-The application was developed following test-driven development principles:
-
-1. Write tests first to define expected behavior
-2. Implement features to pass the tests
-3. Refactor code while maintaining test coverage
-
-This approach ensures that all features are thoroughly tested and function as expected across different user roles and scenarios.
+- Font Awesome icons for the user interface
+- Bootstrap for responsive design
