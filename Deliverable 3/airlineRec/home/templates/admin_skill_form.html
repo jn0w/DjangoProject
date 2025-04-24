@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block content %}
+<!-- Main container with vertical padding -->
+<div class="container py-5">
+  <!-- Page header section -->
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="border-bottom pb-3 mb-4">
+        <i
+          class="fas fa-{% if action == 'Add' %}plus-circle{% else %}edit{% endif %} text-primary me-2"
+        ></i
+        >{{ title }}
+      </h2>
+    </div>
+  </div>
+
+  <!-- Center the form on the page -->
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Card container for the form -->
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <!-- Skill form with POST method -->
+          <form method="POST">
+            {% csrf_token %}
+
+            <!-- Skill Name field -->
+            <div class="mb-3">
+              <label for="{{ form.name.id_for_label }}" class="form-label"
+                >Skill Name</label
+              >
+              {{ form.name }} {% if form.name.errors %}
+              <div class="text-danger mt-1">{{ form.name.errors }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Category field with help text -->
+            <div class="mb-3">
+              <label for="{{ form.category.id_for_label }}" class="form-label"
+                >Category</label
+              >
+              {{ form.category }} {% if form.category.errors %}
+              <div class="text-danger mt-1">{{ form.category.errors }}</div>
+              {% endif %}
+              <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>The category helps
+                organize skills by their domain (e.g. Technical, Soft Skills,
+                Languages).
+              </div>
+            </div>
+
+            <!-- Description field -->
+            <div class="mb-4">
+              <label
+                for="{{ form.description.id_for_label }}"
+                class="form-label"
+                >Description</label
+              >
+              {{ form.description }} {% if form.description.errors %}
+              <div class="text-danger mt-1">{{ form.description.errors }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Form buttons - back and submit -->
+            <div class="d-flex justify-content-between">
+              <!-- Back button returns to skills list -->
+              <a
+                href="{% url 'admin_skills' %}"
+                class="btn btn-outline-secondary"
+              >
+                <i class="fas fa-arrow-left me-2"></i>Back to Skills
+              </a>
+              <!-- Submit button shows either "Add" or "Edit" based on context -->
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>{{ action }} Skill
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

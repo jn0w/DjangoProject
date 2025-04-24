@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Job Offer Response</h2>
+
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Congratulations!</h5>
+    </div>
+    <div class="card-body">
+      <h4>You've been offered the position:</h4>
+      <h5 class="text-primary">{{ job.title }}</h5>
+      <p><strong>Department:</strong> {{ job.department }}</p>
+      <p><strong>Location:</strong> {{ job.location }}</p>
+      {% if job.salary_range %}
+      <p><strong>Salary Range:</strong> {{ job.salary_range }}</p>
+      {% endif %}
+
+      <div class="alert alert-info mt-4">
+        <p>
+          Please respond to this job offer by accepting or declining the
+          position.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">Your Response</h5>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %} {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label"
+            >{{ field.label }}</label
+          >
+          {{ field }} {% if field.help_text %}
+          <div class="form-text">{{ field.help_text }}</div>
+          {% endif %} {% if field.errors %}
+          <div class="invalid-feedback d-block">
+            {% for error in field.errors %} {{ error }} {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary">Submit Response</button>
+          <a href="{% url 'my_applications' %}" class="btn btn-secondary"
+            >Back to Applications</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "base.html" %} {% load django_bootstrap5 %} {% block content %}
+<div class="container py-4">
+  <!-- Job Header with Gradient Background -->
+  <div class="bg-airline text-white p-4 rounded mb-4">
+    <h1 class="display-5">{{ job.title }}</h1>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <span class="badge bg-light text-dark">
+        <i class="fas fa-building"></i> {{ job.department }}
+      </span>
+      <span class="badge bg-light text-dark">
+        <i class="fas fa-map-marker-alt"></i> {{ job.location }}
+      </span>
+      {% if job.salary_range %}
+      <span class="badge bg-light text-dark">
+        <i class="fas fa-money-bill-wave"></i> {{ job.salary_range }}
+      </span>
+      {% endif %}
+      <span class="badge bg-light text-dark">
+        <i class="fas fa-calendar-alt"></i> Deadline: {{ job.deadline_str }}
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Main Content -->
+    <div class="col-md-8">
+      <!-- Job Description Section -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h4 class="card-title mb-0 d-flex align-items-center">
+            <i class="fas fa-file-alt text-airline me-2"></i>
+            <span>Job Description</span>
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="job-description">{{ job.description|linebreaks }}</div>
+        </div>
+      </div>
+
+      <!-- Requirements Section -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h4 class="card-title mb-0 d-flex align-items-center">
+            <i class="fas fa-tasks text-airline me-2"></i>
+            <span>Requirements</span>
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="job-requirements">{{ job.requirements|linebreaks }}</div>
+        </div>
+      </div>
+
+      <!-- Required Skills Section -->
+      {% if job.required_skills.all %}
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h4 class="card-title mb-0 d-flex align-items-center">
+            <i class="fas fa-tools text-airline me-2"></i>
+            <span>Required Skills</span>
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-wrap gap-2">
+            {% for skill in job.required_skills.all %}
+            <span class="badge bg-airline text-white p-2 me-1 mb-1"
+              >{{ skill.name }}</span
+            >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2 mb-4">
+        <a href="{% url 'job_list' %}" class="btn btn-outline-secondary">
+          <i class="fas fa-arrow-left me-2"></i> Back to Jobs
+        </a>
+
+        {% if user.role == 'candidate' and not has_applied %}
+        <a href="{% url 'apply_for_job' job.id %}" class="btn btn-airline">
+          <i class="fas fa-paper-plane me-2"></i> Apply Now
+        </a>
+        {% endif %} {% if user.role == 'hr_coordinator' %}
+        <a href="{% url 'delete_job' job.id %}" class="btn btn-danger">
+          <i class="fas fa-trash-alt me-2"></i> Delete Job
+        </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right Column: Application Info -->
+    <div class="col-md-4">
+      <!-- Application Status Alert -->
+      {% if user.role == 'candidate' and has_applied %}
+      <div class="alert alert-info mb-4">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Application Submitted</strong>
+        <p class="mb-0 mt-2">You have already applied for this position.</p>
+      </div>
+      {% endif %}
+
+      <!-- Application Details Card -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0 d-flex align-items-center">
+            <i class="fas fa-info-circle text-airline me-2"></i>Application
+            Details
+          </h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li
+              class="list-group-item d-flex justify-content-between align-items-start border-0"
+            >
+              <div>
+                <strong>Application Deadline</strong>
+                <p class="mb-0 text-muted">{{ job.deadline_str }}</p>
+              </div>
+              <span class="text-airline">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
+            </li>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-start border-0"
+            >
+              <div>
+                <strong>Posted</strong>
+                <p class="mb-0 text-muted">
+                  {{ job.posted_date|date:"M d, Y" }}
+                </p>
+              </div>
+              <span class="text-airline">
+                <i class="fas fa-clock"></i>
+              </span>
+            </li>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-start border-0"
+            >
+              <div>
+                <strong>Expected Start</strong>
+                <p class="mb-0 text-muted">After selection process</p>
+              </div>
+              <span class="text-airline">
+                <i class="fas fa-play-circle"></i>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Company Info Card -->
+    </div>
+  </div>
+</div>
+
+<style>
+  .text-airline {
+    color: #0056b3;
+  }
+
+  .bg-airline {
+    background-color: #0056b3;
+  }
+
+  .btn-airline {
+    background-color: #0056b3;
+    color: white;
+  }
+
+  .btn-airline:hover {
+    background-color: #004494;
+    color: white;
+  }
+</style>
+{% endblock %}

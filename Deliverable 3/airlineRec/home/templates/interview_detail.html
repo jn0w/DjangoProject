@@ -1,0 +1,145 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Interview Details</h2>
+    <a href="{% url 'interview_list' %}" class="btn btn-outline-secondary"
+      >Back to Interviews</a
+    >
+  </div>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h4>{{ interview.application.job.title }} Interview</h4>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Candidate</th>
+                <td>
+                  {{ interview.application.candidate.user.get_full_name }}
+                </td>
+              </tr>
+              <tr>
+                <th>Job Position</th>
+                <td>{{ interview.application.job.title }}</td>
+              </tr>
+              <tr>
+                <th>Interviewer</th>
+                <td>{{ interview.interviewer.get_full_name }}</td>
+              </tr>
+              <tr>
+                <th>Date & Time</th>
+                <td>{{ interview.scheduled_date|date:"F d, Y - H:i" }}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{{ interview.get_status_display }}</td>
+              </tr>
+              <tr>
+                <th>Location</th>
+                <td>
+                  <span class="badge bg-info">Online</span>
+                  <a
+                    href="{{ interview.meeting_link }}"
+                    target="_blank"
+                    class="btn btn-sm btn-outline-primary"
+                    >Join Meeting</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h4>Actions</h4>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a
+              href="{% url 'update_interview' interview.id %}"
+              class="btn btn-outline-primary"
+              >Edit Interview Details</a
+            >
+            <a
+              href="{% url 'interviewer_feedback' interview.id %}"
+              class="btn btn-outline-success"
+              >Add/Update Feedback</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4>Interviewer Feedback</h4>
+    </div>
+    <div class="card-body">
+      {% if interview.interviewer_feedback %}
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card bg-light mb-3">
+            <div class="card-body text-center">
+              <h5>Rating</h5>
+              <div class="text-warning h3">
+                {% if interview.interviewer_rating >= 1 %}
+                <i class="fas fa-star"></i>
+                {% else %}
+                <i class="far fa-star"></i>
+                {% endif %} {% if interview.interviewer_rating >= 2 %}
+                <i class="fas fa-star"></i>
+                {% else %}
+                <i class="far fa-star"></i>
+                {% endif %} {% if interview.interviewer_rating >= 3 %}
+                <i class="fas fa-star"></i>
+                {% else %}
+                <i class="far fa-star"></i>
+                {% endif %} {% if interview.interviewer_rating >= 4 %}
+                <i class="fas fa-star"></i>
+                {% else %}
+                <i class="far fa-star"></i>
+                {% endif %} {% if interview.interviewer_rating >= 5 %}
+                <i class="fas fa-star"></i>
+                {% else %}
+                <i class="far fa-star"></i>
+                {% endif %}
+              </div>
+              <span class="badge bg-warning text-dark"
+                >{{ interview.interviewer_rating }}/5</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h5>Feedback Comments</h5>
+              <div>{{ interview.interviewer_feedback|linebreaks }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-info">No feedback has been provided yet.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

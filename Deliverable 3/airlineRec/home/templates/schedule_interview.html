@@ -1,0 +1,158 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container py-5">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2 text-airline mb-0">
+      <i class="fas fa-calendar-alt me-2"></i>{{ title }}
+    </h1>
+    <a href="{% url 'interview_list' %}" class="btn btn-outline-airline">
+      <i class="fas fa-arrow-left me-2"></i>Back to Interviews
+    </a>
+  </div>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-light py-3">
+      <h5 class="card-title mb-0">
+        <i class="fas fa-info-circle me-2 text-airline"></i>Interview Details
+      </h5>
+    </div>
+    <div class="card-body p-4">
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-4">
+          <label
+            for="{{ form.scheduled_date.id_for_label }}"
+            class="form-label fw-bold"
+          >
+            <i class="fas fa-clock me-2 text-airline"></i>Scheduled Date & Time:
+          </label>
+          <div class="input-group">
+            {{ form.scheduled_date }}
+            <span class="input-group-text"
+              ><i class="fas fa-calendar"></i
+            ></span>
+          </div>
+          {% if form.scheduled_date.errors %}
+          <div class="invalid-feedback d-block mt-2">
+            {{ form.scheduled_date.errors }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-4">
+          <div class="card bg-light border-0">
+            <div class="card-body">
+              <h6 class="d-flex align-items-center mb-2">
+                <i class="fas fa-video me-2 text-airline"></i>Online Interview
+              </h6>
+              <p class="text-muted mb-0">
+                This interview will be conducted online.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="meeting-link-group" class="mb-4">
+          <label
+            for="{{ form.meeting_link.id_for_label }}"
+            class="form-label fw-bold"
+          >
+            <i class="fas fa-link me-2 text-airline"></i>Meeting Link:
+          </label>
+          <div class="input-group">
+            {{ form.meeting_link }}
+            <span class="input-group-text"
+              ><i class="fas fa-external-link-alt"></i
+            ></span>
+          </div>
+          {% if form.meeting_link.errors %}
+          <div class="invalid-feedback d-block mt-2">
+            {{ form.meeting_link.errors }}
+          </div>
+          {% endif %}
+          <div class="form-text">
+            <i class="fas fa-info-circle me-1"></i>Provide a video conferencing
+            link (Zoom, Teams, etc.)
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label
+            for="{{ form.interviewer.id_for_label }}"
+            class="form-label fw-bold"
+          >
+            <i class="fas fa-user-tie me-2 text-airline"></i>Assign Interviewer:
+          </label>
+          {{ form.interviewer }} {% if form.interviewer.errors %}
+          <div class="invalid-feedback d-block mt-2">
+            {{ form.interviewer.errors }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button type="submit" class="btn btn-airline btn-lg">
+            <i class="fas fa-save me-2"></i>Save Interview
+          </button>
+          <a
+            href="{% url 'interview_list' %}"
+            class="btn btn-outline-secondary btn-lg"
+          >
+            <i class="fas fa-times me-2"></i>Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .text-airline {
+    color: #0056b3;
+  }
+
+  .bg-airline {
+    background-color: #0056b3;
+  }
+
+  .btn-airline {
+    background-color: #0056b3;
+    color: white;
+  }
+
+  .btn-airline:hover {
+    background-color: #004494;
+    color: white;
+  }
+
+  .btn-outline-airline {
+    color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  .btn-outline-airline:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+</style>
+{% endblock %}
