@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Basic meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Airlines Recruiting System</title>
+    <!-- Load Bootstrap CSS and JavaScript -->
+    {% load django_bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <!-- Custom CSS styles -->
+    <style>
+      /* Navbar brand styling */
+      .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      /* Custom airline theme colors */
+      .bg-airline {
+        background-color: #003366;
+      }
+      .btn-airline {
+        background-color: #003366;
+        border-color: #003366;
+        color: white;
+      }
+      .btn-airline:hover {
+        background-color: #002244;
+        border-color: #002244;
+        color: white;
+      }
+      /* Navbar shadow effect */
+      .navbar {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      /* Footer styling */
+      footer {
+        margin-top: 3rem;
+        padding: 2rem 0;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+      }
+      /* Navigation item spacing */
+      .nav-item {
+        margin-right: 0.5rem;
+      }
+      /* Text color matching airline theme */
+      .text-airline {
+        color: #003366;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header section with navigation -->
+    <header class="site-header">
+      <!-- Main navigation bar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-airline">
+        <div class="container">
+          <!-- Logo and brand name -->
+          <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="fas fa-plane-departure me-2"></i>Airlines Recruiting
+          </a>
+          <!-- Mobile navigation toggle button -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Navigation links -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Left side navigation items -->
+            <ul class="navbar-nav me-auto">
+              <!-- Home link - visible to all -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}"
+                  ><i class="fas fa-home me-1"></i> Home</a
+                >
+              </li>
+
+              {% if user.is_authenticated %}
+              <!-- Profile link - visible to all logged in users -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}"
+                  ><i class="fas fa-user me-1"></i> Profile</a
+                >
+              </li>
+
+              <!-- Jobs list - visible to all logged in users -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'job_list' %}"
+                  ><i class="fas fa-briefcase me-1"></i> Jobs</a
+                >
+              </li>
+
+              <!-- Candidate-specific navigation items -->
+              {% if user.role == 'candidate' %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'manage_skills' %}"
+                  ><i class="fas fa-tools me-1"></i> Manage Skills</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'my_applications' %}"
+                  ><i class="fas fa-clipboard-list me-1"></i> My Applications</a
+                >
+              </li>
+              {% endif %}
+
+              <!-- HR Coordinator-specific navigation items -->
+              {% if user.role == 'hr_coordinator' %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'create_job' %}"
+                  ><i class="fas fa-plus-circle me-1"></i> Post Job</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'application_list' %}"
+                  ><i class="fas fa-file-alt me-1"></i> Applications</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'interview_list' %}"
+                  ><i class="fas fa-calendar-check me-1"></i> All Interviews</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_skills' %}"
+                  ><i class="fas fa-cogs me-1"></i> Skills Database</a
+                >
+              </li>
+              {% endif %}
+
+              <!-- Interviewer-specific navigation items -->
+              {% if user.role == 'interviewer' %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'interview_list' %}"
+                  ><i class="fas fa-calendar-check me-1"></i> Interviews</a
+                >
+              </li>
+              {% endif %}
+
+              <!-- Admin-specific navigation items -->
+              {% if user.is_superuser %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'staff_list' %}"
+                  ><i class="fas fa-users-cog me-1"></i> Staff Management</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_skills' %}"
+                  ><i class="fas fa-cogs me-1"></i> Skills Database</a
+                >
+              </li>
+              {% endif %} {% endif %}
+            </ul>
+
+            <!-- Right side navigation (authentication) -->
+            <ul class="navbar-nav">
+              {% if user.is_authenticated %}
+              <!-- Logout button for authenticated users -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}"
+                  ><i class="fas fa-sign-out-alt me-1"></i> Logout</a
+                >
+              </li>
+              {% else %}
+              <!-- Login/Register buttons for unauthenticated users -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}"
+                  ><i class="fas fa-sign-in-alt me-1"></i> Login</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}"
+                  ><i class="fas fa-user-plus me-1"></i> Register</a
+                >
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main content area -->
+    <main class="py-4">
+      <div class="container">
+        <!-- Display system messages/alerts -->
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %} {% endif %}
+
+        <!-- Page-specific content from child templates -->
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <!-- Footer section -->
+    <footer class="text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="mb-0">&copy; 2024 Airlines Recruiting System</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

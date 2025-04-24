@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2 text-airline mb-0">
+      <i class="fas fa-calendar-check me-2"></i>Interviews
+    </h1>
+  </div>
+
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <!-- Filter Section -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light py-3">
+      <h5 class="card-title mb-0">
+        <i class="fas fa-filter me-2 text-airline"></i>Filter Interviews
+      </h5>
+    </div>
+    <div class="card-body p-3">
+      <form method="GET" class="row g-2 align-items-center">
+        <div class="col-md-6">
+          <label for="status" class="form-label fw-bold">
+            <i class="fas fa-tag me-2 text-airline"></i>Filter by Status:
+          </label>
+          <select name="status" id="status" class="form-select">
+            <option value="">All Statuses</option>
+            {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-airline w-100">
+            <i class="fas fa-search me-2"></i>Apply Filter
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Interviews List -->
+  {% if interviews %}
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Candidate</th>
+              <th>Job Position</th>
+              <th>Date & Time</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th class="text-end pe-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for interview in interviews %}
+            <tr>
+              <td class="ps-4">
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-user-circle me-2 text-airline"></i>
+                  <strong>{{ interview.application.candidate.user.get_full_name }}</strong>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-briefcase me-2 text-airline"></i>
+                  {{ interview.application.job.title }}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-clock me-2 text-airline"></i>
+                  {{ interview.scheduled_date|date:"M d, Y - H:i" }}
+                </div>
+              </td>
+              <td>
+                <span class="badge bg-info text-dark rounded-pill px-3 py-2">
+                  <i class="fas fa-video me-1"></i>Online
+                </span>
+              </td>
+              <td>
+                <span class="badge rounded-pill px-3 py-2 
+                  {% if interview.status == 'scheduled' %}bg-primary
+                  {% elif interview.status == 'completed' %}bg-success
+                  {% elif interview.status == 'cancelled' %}bg-danger
+                  {% elif interview.status == 'rescheduled' %}bg-warning text-dark
+                  {% endif %}">
+                  {% if interview.status == 'scheduled' %}
+                    <i class="fas fa-calendar-day me-1"></i>Scheduled
+                  {% elif interview.status == 'completed' %}
+                    <i class="fas fa-check-circle me-1"></i>Completed
+                  {% elif interview.status == 'cancelled' %}
+                    <i class="fas fa-times-circle me-1"></i>Cancelled
+                  {% elif interview.status == 'rescheduled' %}
+                    <i class="fas fa-sync me-1"></i>Rescheduled
+                  {% endif %}
+                </span>
+              </td>
+              <td class="text-end pe-4">
+                <div class="btn-group">
+                  <a href="{% url 'interview_detail' interview.id %}" class="btn btn-sm btn-outline-airline">
+                    <i class="fas fa-eye me-1"></i>View
+                  </a>
+                  
+                  {% if user.role == 'recruiter' and interview.recruiter == user and interview.status == 'scheduled' %}
+                  <a href="{% url 'update_interview' interview.id %}" class="btn btn-sm btn-outline-primary ms-1">
+                    <i class="fas fa-edit me-1"></i>Edit
+                  </a>
+                  {% endif %}
+
+                  {% if user.role == 'interviewer' and interview.interviewer == user and interview.status == 'scheduled' %}
+                  <a href="{% url 'interviewer_feedback' interview.id %}" class="btn btn-sm btn-outline-success ms-1">
+                    <i class="fas fa-comment me-1"></i>Add Feedback
+                  </a>
+                  {% endif %}
+                  
+                  {% if user.role == 'interviewer' and interview.interviewer == user and interview.status == 'completed' and not interview.interviewer_feedback %}
+                  <a href="{% url 'interviewer_feedback' interview.id %}" class="btn btn-sm btn-outline-success ms-1">
+                    <i class="fas fa-comment me-1"></i>Add Feedback
+                  </a>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-5 text-center">
+      <div class="mb-4">
+        <i class="fas fa-calendar-times text-airline" style="font-size: 4rem"></i>
+      </div>
+      <h3 class="mb-3">No Interviews Found</h3>
+      <p class="text-muted mb-0">
+        There are no interviews matching your filter criteria.
+      </p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<style>
+  .text-airline {
+    color: #0056b3;
+  }
+
+  .bg-airline {
+    background-color: #0056b3;
+  }
+
+  .btn-airline {
+    background-color: #0056b3;
+    color: white;
+  }
+
+  .btn-airline:hover {
+    background-color: #004494;
+    color: white;
+  }
+
+  .btn-outline-airline {
+    color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  .btn-outline-airline:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+</style>
+{% endblock %}

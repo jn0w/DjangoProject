@@ -1,0 +1,246 @@
+{% extends "base.html" %} {% load django_bootstrap5 %} {% block content %}
+<div class="container py-5">
+  <div class="row">
+    <!-- Left column - User info -->
+    <div class="col-lg-4 mb-4">
+      <!-- User Profile Card -->
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-airline text-white py-3">
+          <h3 class="mb-0">
+            <i class="fas fa-user-circle me-2"></i>{{ user.username }}'s Profile
+          </h3>
+        </div>
+        <div class="card-body text-center">
+          <div class="mb-4">
+            <div class="avatar-placeholder mb-3">
+              <i class="fas fa-user-circle fa-6x text-airline"></i>
+            </div>
+            <h4 class="mb-0">{{ user.get_full_name|default:user.username }}</h4>
+            <p class="text-muted">{{ user.get_role_display }}</p>
+          </div>
+
+          <hr />
+
+          <div class="text-start">
+            <p class="mb-2">
+              <i class="fas fa-envelope me-2 text-airline"></i>
+              <strong>Email:</strong> {{ user.email }}
+            </p>
+
+            {% if user.phone_number %}
+            <p class="mb-2">
+              <i class="fas fa-phone me-2 text-airline"></i>
+              <strong>Phone:</strong> {{ user.phone_number }}
+            </p>
+            {% endif %}
+          </div>
+
+          {% if user.role == 'candidate' %}
+          <div class="mt-4">
+            <a href="{% url 'manage_skills' %}" class="btn btn-airline w-100">
+              <i class="fas fa-edit me-2"></i>Edit Profile
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column - Main content -->
+    <div class="col-lg-8">
+      {% if user.role == 'candidate' %}
+      <!-- Education Section -->
+      <div class="card shadow-sm mb-4">
+        <div
+          class="card-header bg-light py-3 d-flex justify-content-between align-items-center"
+        >
+          <h4 class="mb-0">
+            <i class="fas fa-graduation-cap me-2 text-airline"></i>Education
+          </h4>
+        </div>
+        <div class="card-body">
+          {% if candidate.education_institution %}
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Institution</th>
+                  <th>Degree/Course</th>
+                  <th>Field of Study</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ candidate.education_institution }}</td>
+                  <td>{{ candidate.education_degree }}</td>
+                  <td>{{ candidate.education_field }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Certifications Section - Extremely simplified -->
+          <div class="mt-4">
+            <h5>
+              <i class="fas fa-certificate me-2 text-airline"></i>Certifications
+            </h5>
+            {% if candidate.certifications %}
+            <div>{{ candidate.certifications }}</div>
+            {% else %}
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>No certifications added
+              yet.
+            </div>
+            {% endif %}
+          </div>
+          {% else %}
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>No education details added
+            yet.
+            <a href="{% url 'manage_skills' %}" class="alert-link"
+              >Click here to add your education.</a
+            >
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="card shadow-sm">
+        <div
+          class="card-header bg-light py-3 d-flex justify-content-between align-items-center"
+        >
+          <h4 class="mb-0">
+            <i class="fas fa-tools me-2 text-airline"></i>Skills
+          </h4>
+        </div>
+        <div class="card-body">
+          {% if candidate_skills %}
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Skill</th>
+                  <th>Proficiency</th>
+                  <th>Experience</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for candidate_skill in candidate_skills %}
+                <tr>
+                  <td>
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    {{ candidate_skill.skill.name }}
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      {% if candidate_skill.proficiency == 'beginner' %}
+                      <div class="progress flex-grow-1" style="height: 6px">
+                        <div
+                          class="progress-bar bg-airline"
+                          style="width: 33%"
+                        ></div>
+                      </div>
+                      <span class="ms-2">Beginner</span>
+                      {% elif candidate_skill.proficiency == 'intermediate' %}
+                      <div class="progress flex-grow-1" style="height: 6px">
+                        <div
+                          class="progress-bar bg-airline"
+                          style="width: 66%"
+                        ></div>
+                      </div>
+                      <span class="ms-2">Intermediate</span>
+                      {% else %}
+                      <div class="progress flex-grow-1" style="height: 6px">
+                        <div
+                          class="progress-bar bg-airline"
+                          style="width: 100%"
+                        ></div>
+                      </div>
+                      <span class="ms-2">Advanced</span>
+                      {% endif %}
+                    </div>
+                  </td>
+                  <td>{{ candidate_skill.years_experience }} year(s)</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>No skills added yet.
+            <a href="{% url 'manage_skills' %}" class="alert-link"
+              >Click here to add your skills.</a
+            >
+          </div>
+          {% endif %}
+
+          <a href="{% url 'manage_skills' %}" class="btn btn-airline mt-3">
+            <i class="fas fa-plus-circle me-2"></i>Add/Edit Skills
+          </a>
+        </div>
+      </div>
+      {% else %}
+      <!-- Staff Information -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-light py-3">
+          <h4 class="mb-0">
+            <i class="fas fa-briefcase me-2 text-airline"></i>Staff Information
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>Welcome to your profile page!
+          </div>
+
+          {% if user.role == 'hr_coordinator' %}
+          <div class="row mt-4">
+            <div class="col-md-6 mb-3">
+              <div class="card border-0 bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-clipboard-list fa-3x mb-3 text-airline"></i>
+                  <h5>Manage Applications</h5>
+                  <p>Review and process candidate applications</p>
+                  <a href="{% url 'application_list' %}" class="btn btn-airline"
+                    >Go to Applications</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card border-0 bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-calendar-check fa-3x mb-3 text-airline"></i>
+                  <h5>Manage Interviews</h5>
+                  <p>Schedule and review candidate interviews</p>
+                  <a href="{% url 'interview_list' %}" class="btn btn-airline"
+                    >Go to Interviews</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %} {% if user.role == 'interviewer' %}
+          <div class="row mt-4">
+            <div class="col-md-6 mx-auto mb-3">
+              <div class="card border-0 bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-calendar-check fa-3x mb-3 text-airline"></i>
+                  <h5>Your Interviews</h5>
+                  <p>View and provide feedback for assigned interviews</p>
+                  <a href="{% url 'interview_list' %}" class="btn btn-airline"
+                    >Go to Interviews</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

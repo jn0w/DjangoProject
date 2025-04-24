@@ -1,0 +1,575 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Main container with padding -->
+<div class="container py-5">
+  <!-- Header with back button -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2 text-airline mb-0">
+      <i class="fas fa-clipboard-check me-2"></i>Application Details
+    </h1>
+    <a href="{% url 'application_list' %}" class="btn btn-outline-airline">
+      <i class="fas fa-arrow-left me-2"></i>Back to Applications
+    </a>
+  </div>
+  
+  <!-- Display system messages/alerts -->
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <!-- Main content in two columns -->
+  <div class="row">
+    <!-- Left Column: Application & Candidate Info -->
+    <div class="col-lg-8 mb-4 mb-lg-0">
+      <!-- Job Info Card -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-briefcase me-2 text-airline"></i>Job Details
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <h4 class="mb-3 text-airline">{{ application.job.title }}</h4>
+          <!-- Job details in two columns -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <p class="mb-2">
+                <i class="fas fa-building me-2 text-airline"></i>
+                <strong>Department:</strong> {{ application.job.department }}
+              </p>
+              <p class="mb-0">
+                <i class="fas fa-map-marker-alt me-2 text-airline"></i>
+                <strong>Location:</strong> {{ application.job.location }}
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p class="mb-2">
+                <i class="fas fa-calendar-alt me-2 text-airline"></i>
+                <strong>Posted Date:</strong> {{ application.job.posted_date|date:"F d, Y" }}
+              </p>
+              <p class="mb-0">
+                <i class="fas fa-dollar-sign me-2 text-airline"></i>
+                <strong>Salary Range:</strong> {{ application.job.salary_range|default:"Not specified" }}
+              </p>
+            </div>
+          </div>
+          
+          <!-- Required Skills badges -->
+          {% if application.job.required_skills.all %}
+          <div class="mt-3">
+            <p class="mb-2">
+              <i class="fas fa-tools me-2 text-airline"></i>
+              <strong>Required Skills:</strong>
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              {% for skill in application.job.required_skills.all %}
+              <span class="badge bg-airline px-3 py-2">{{ skill.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Candidate Info Card -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-user me-2 text-airline"></i>Candidate Information
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <!-- Basic candidate details -->
+          <div class="mb-4">
+            <div class="d-flex align-items-center mb-3">
+              <i class="fas fa-user-circle fa-3x text-airline me-3"></i>
+              <div>
+                <h4 class="mb-1">{{ application.candidate.user.get_full_name|default:application.candidate.user.username }}</h4>
+                <p class="mb-0 text-muted">Applied on {{ application.applied_at|date:"F d, Y" }}</p>
+              </div>
+            </div>
+            <p class="mb-2">
+              <i class="fas fa-envelope me-2 text-airline"></i>
+              <strong>Email:</strong> {{ application.candidate.user.email }}
+            </p>
+            <p class="mb-0">
+              <i class="fas fa-phone-alt me-2 text-airline"></i>
+              <strong>Phone:</strong> {{ application.candidate.user.phone_number|default:"Not provided" }}
+            </p>
+          </div>
+          
+          <!-- Education Section -->
+          <div class="mb-4">
+            <h5 class="border-bottom pb-2 mb-3">
+              <i class="fas fa-graduation-cap me-2 text-airline"></i>Education
+            </h5>
+            {% if application.candidate.education_institution %}
+            <!-- Education details table -->
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <tr>
+                  <th style="width: 30%">Institution</th>
+                  <td>{{ application.candidate.education_institution }}</td>
+                </tr>
+                <tr>
+                  <th>Degree/Course</th>
+                  <td>{{ application.candidate.education_degree }}</td>
+                </tr>
+                <tr>
+                  <th>Field of Study</th>
+                  <td>{{ application.candidate.education_field }}</td>
+                </tr>
+                <tr>
+                  <th>Period</th>
+                  <td>
+                    <span class="badge bg-light text-dark px-3 py-2">
+                      {{ application.candidate.education_start_year }}
+                      {% if application.candidate.education_currently_studying %} 
+                        - Present
+                      {% elif application.candidate.education_end_year %} 
+                        - {{ application.candidate.education_end_year }}
+                      {% endif %}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            {% else %}
+            <div class="alert alert-light border">
+              <i class="fas fa-info-circle me-2"></i>No education details provided.
+            </div>
+            {% endif %}
+          </div>
+          
+          <!-- Skills Section -->
+          <div class="mb-4">
+            <h5 class="border-bottom pb-2 mb-3">
+              <i class="fas fa-tools me-2 text-airline"></i>Skills
+            </h5>
+            {% if candidate_skills %}
+            <!-- Skills table with proficiency indicators -->
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Skill</th>
+                    <th>Proficiency</th>
+                    <th>Experience</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for skill in candidate_skills %}
+                  <tr>
+                    <td>
+                      <i class="fas fa-check-circle text-success me-2"></i>{{ skill.skill.name }}
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        {% if skill.proficiency == 'beginner' %}
+                        <!-- Beginner proficiency progress bar -->
+                        <div class="progress flex-grow-1" style="height: 6px">
+                          <div class="progress-bar bg-airline" style="width: 33%"></div>
+                        </div>
+                        <span class="ms-2">Beginner</span>
+                        {% elif skill.proficiency == 'intermediate' %}
+                        <!-- Intermediate proficiency progress bar -->
+                        <div class="progress flex-grow-1" style="height: 6px">
+                          <div class="progress-bar bg-airline" style="width: 66%"></div>
+                        </div>
+                        <span class="ms-2">Intermediate</span>
+                        {% else %}
+                        <!-- Advanced proficiency progress bar -->
+                        <div class="progress flex-grow-1" style="height: 6px">
+                          <div class="progress-bar bg-airline" style="width: 100%"></div>
+                        </div>
+                        <span class="ms-2">Advanced</span>
+                        {% endif %}
+                      </div>
+                    </td>
+                    <td>{{ skill.years_experience }} year(s)</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <div class="alert alert-light border">
+              <i class="fas fa-info-circle me-2"></i>No skills listed.
+            </div>
+            {% endif %}
+          </div>
+          
+          <!-- Certifications Section -->
+          {% if application.candidate.certifications %}
+          <div class="mb-4">
+            <h5 class="border-bottom pb-2 mb-3">
+              <i class="fas fa-certificate me-2 text-airline"></i>Certifications
+            </h5>
+            <div class="row g-2">
+              {% for certification in application.candidate.certifications.split %}
+                {% if certification %}
+                <div class="col-md-6">
+                  <div class="card bg-light border-0">
+                    <div class="card-body py-2 px-3">
+                      <i class="fas fa-award me-2 text-airline"></i>{{ certification }}
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Cover Letter Card -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-file-alt me-2 text-airline"></i>Cover Letter
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          {% if application.cover_letter %}
+            <div class="p-4 bg-light rounded">
+              {{ application.cover_letter|linebreaks }}
+            </div>
+          {% else %}
+            <div class="alert alert-light border">
+              <i class="fas fa-info-circle me-2"></i>No cover letter provided.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Interview Information Card -->
+      {% if interviews %}
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-comments me-2 text-airline"></i>Interview Information
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <!-- Loop through each interview -->
+          {% for interview in interviews %}
+          <div class="mb-4 {% if not forloop.last %}border-bottom pb-4{% endif %}">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-check me-2 text-airline"></i>Interview #{{ forloop.counter }}
+              </h5>
+              <!-- Status badge with color based on status -->
+              <span class="badge {% if interview.status == 'completed' %}bg-success{% elif interview.status == 'cancelled' %}bg-danger{% elif interview.status == 'rescheduled' %}bg-warning{% else %}bg-primary{% endif %} px-3 py-2">
+                {{ interview.get_status_display }}
+              </span>
+            </div>
+            
+            <!-- Interview details table -->
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <tr>
+                  <th style="width: 30%">
+                    <i class="fas fa-user-tie me-2 text-airline"></i>HR Coordinator
+                  </th>
+                  <td>{{ interview.hr_coordinator.get_full_name }}</td>
+                </tr>
+                <tr>
+                  <th>
+                    <i class="fas fa-user-friends me-2 text-airline"></i>Interviewer
+                  </th>
+                  <td>{{ interview.interviewer.get_full_name|default:"Not assigned" }}</td>
+                </tr>
+                <tr>
+                  <th>
+                    <i class="fas fa-clock me-2 text-airline"></i>Date & Time
+                  </th>
+                  <td>{{ interview.scheduled_date|date:"F d, Y - H:i" }}</td>
+                </tr>
+                <tr>
+                  <th>
+                    <i class="fas fa-map-pin me-2 text-airline"></i>Location
+                  </th>
+                  <td>
+                    {% if interview.is_online %}
+                      <!-- Online interview indicator with meeting link -->
+                      <span class="badge bg-info text-dark px-2 py-1 me-2">
+                        <i class="fas fa-video me-1"></i>Online
+                      </span>
+                      {% if interview.meeting_link %}
+                        <a href="{{ interview.meeting_link }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                          <i class="fas fa-external-link-alt me-1"></i>Join Meeting
+                        </a>
+                      {% endif %}
+                    {% else %}
+                      <i class="fas fa-building me-2"></i>{{ interview.location }}
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+            </div>
+            
+            <!-- Interview feedback section (only shown for completed interviews) -->
+            {% if interview.status == 'completed' %}
+              <div class="row mt-4">
+                {% if interview.interviewer_feedback %}
+                <div class="col-md-6 mb-3">
+                  <div class="card h-100 bg-light border-0">
+                    <div class="card-body">
+                      <h6 class="border-bottom pb-2 mb-3">
+                        <i class="fas fa-comment-dots me-2 text-airline"></i>Interviewer Feedback
+                      </h6>
+                      <!-- Star rating display -->
+                      <div class="mb-2">
+                        <strong>Rating:</strong> 
+                        <div class="d-inline-block text-warning">
+                          {% for i in '12345'|make_list %}
+                            {% if forloop.counter <= interview.interviewer_rating %}
+                              <i class="fas fa-star"></i>
+                            {% else %}
+                              <i class="far fa-star"></i>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        ({{ interview.interviewer_rating }}/5)
+                      </div>
+                      <p class="mb-0">{{ interview.interviewer_feedback }}</p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% if interview.feedback %}
+                <div class="col-md-6 mb-3">
+                  <div class="card h-100 bg-light border-0">
+                    <div class="card-body">
+                      <h6 class="border-bottom pb-2 mb-3">
+                        <i class="fas fa-comment-alt me-2 text-airline"></i>HR Coordinator Feedback
+                      </h6>
+                      <!-- Star rating display -->
+                      <div class="mb-2">
+                        <strong>Rating:</strong> 
+                        <div class="d-inline-block text-warning">
+                          {% for i in '12345'|make_list %}
+                            {% if forloop.counter <= interview.rating %}
+                              <i class="fas fa-star"></i>
+                            {% else %}
+                              <i class="far fa-star"></i>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                        ({{ interview.rating }}/5)
+                      </div>
+                      <p class="mb-0">{{ interview.feedback }}</p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="alert alert-info mt-3 mb-0">
+                <i class="fas fa-info-circle me-2"></i>Interview has not been completed yet. Feedback will be available after the interview.
+              </div>
+            {% endif %}
+            
+            <!-- Link to detailed interview view -->
+            <div class="mt-3">
+              <a href="{% url 'interview_detail' interview.id %}" class="btn btn-outline-airline">
+                <i class="fas fa-search me-2"></i>View Full Interview Details
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    
+    <!-- Right Column: Application Status & Actions -->
+    <div class="col-lg-4">
+      <!-- Application Status Card -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-tasks me-2 text-airline"></i>Application Status
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <!-- Current status badge -->
+          <div class="text-center mb-4">
+            <a href="#" class="btn btn-primary px-4 py-2 rounded-pill" style="pointer-events: none;">
+              <i class="fas fa-calendar-check me-2"></i>{{ application.get_status_display }}
+            </a>
+          </div>
+          
+          <!-- Application status timeline -->
+          <div class="timeline-compact mb-4">
+            <div class="timeline-item d-flex align-items-center mb-2 {% if application.status != 'pending' %}done{% endif %}">
+              <div class="timeline-marker me-4"></div>
+              <div class="timeline-content ps-2">
+                <h6 class="mb-0">Application Received</h6>
+                <p class="text-muted mb-0 small">{{ application.applied_at|date:"M d, Y" }}</p>
+              </div>
+            </div>
+            <div class="timeline-item d-flex align-items-center mb-2 {% if application.status == 'reviewing' or application.status == 'interview' or application.status == 'offered' or application.status == 'rejected' or application.status == 'accepted' %}done{% endif %}">
+              <div class="timeline-marker me-4"></div>
+              <div class="timeline-content ps-2">
+                <h6 class="mb-0">Under Review</h6>
+              </div>
+            </div>
+            <div class="timeline-item d-flex align-items-center mb-2 {% if application.status == 'interview' or application.status == 'offered' or application.status == 'rejected' or application.status == 'accepted' %}done{% endif %}">
+              <div class="timeline-marker me-4"></div>
+              <div class="timeline-content ps-2">
+                <h6 class="mb-0">Interview Stage</h6>
+              </div>
+            </div>
+            <div class="timeline-item d-flex align-items-center {% if application.status == 'offered' or application.status == 'accepted' %}done{% endif %}">
+              <div class="timeline-marker me-4"></div>
+              <div class="timeline-content ps-2">
+                <h6 class="mb-0">Decision</h6>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Status update form -->
+          <form method="POST" action="{% url 'update_application_status' application.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="status" class="form-label fw-bold d-flex align-items-center">
+                <i class="fas fa-edit me-2 text-airline"></i>Update Status:
+              </label>
+              <select name="status" id="status" class="form-select">
+                {% for status_code, status_label in status_choices %}
+                <option value="{{ status_code }}" {% if application.status == status_code %}selected{% endif %}>
+                  {{ status_label }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class="fas fa-save me-2"></i>Update Status
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Application Actions Card -->
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-cogs me-2 text-airline"></i>Actions
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <div class="d-grid gap-3">
+            <!-- Email candidate button -->
+            <a href="mailto:{{ application.candidate.user.email }}" class="btn btn-outline-airline btn-lg">
+              <i class="fas fa-envelope me-2"></i>Email Candidate
+            </a>
+            
+            <!-- Download resume button -->
+            {% if application.candidate.resume %}
+            <a href="{{ application.candidate.resume.url }}" class="btn btn-outline-airline btn-lg" target="_blank">
+              <i class="fas fa-file-download me-2"></i>View/Download Resume
+            </a>
+            {% else %}
+            <button class="btn btn-outline-airline btn-lg" disabled>
+              <i class="fas fa-file-download me-2"></i>No Resume Available
+            </button>
+            {% endif %}
+            
+            <!-- Schedule interview button (only shown for active applications) -->
+            {% if application.status != 'rejected' and application.status != 'accepted' %}
+            <a href="{% url 'schedule_interview' application.id %}" class="btn btn-airline btn-lg">
+              <i class="fas fa-calendar-plus me-2"></i>Schedule Interview
+            </a>
+            {% endif %}
+            
+            <!-- Delete application button -->
+            <a href="{% url 'delete_application' application.id %}" class="btn btn-outline-danger btn-lg">
+              <i class="fas fa-trash-alt me-2"></i>Delete Application
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom CSS styles for the application detail page -->
+<style>
+  /* Custom airline brand colors */
+  .text-airline {
+    color: #0056b3;
+  }
+
+  .bg-airline {
+    background-color: #0056b3;
+  }
+
+  .btn-airline {
+    background-color: #0056b3;
+    color: white;
+  }
+
+  .btn-airline:hover {
+    background-color: #004494;
+    color: white;
+  }
+
+  .btn-outline-airline {
+    color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  .btn-outline-airline:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  
+  /* Timeline styling for application progress */
+  .timeline {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  
+  .timeline:before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e9ecef;
+  }
+  
+  .timeline-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+  }
+  
+  .timeline-marker {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #e9ecef;
+    background: white;
+    left: -0.45rem;
+    top: 0.25rem;
+  }
+  
+  .timeline-item.done .timeline-marker {
+    background: #0056b3;
+    border-color: #0056b3;
+  }
+</style>
+{% endblock %}

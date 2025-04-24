@@ -1,0 +1,142 @@
+{% extends "base.html" %} {% block content %}
+<!-- Main container with padding -->
+<div class="container py-5">
+  <!-- Page header section -->
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="border-bottom pb-3 mb-4">
+        <i class="fas fa-cogs text-primary me-2"></i>Admin Skills Management
+      </h2>
+    </div>
+  </div>
+
+  <!-- Display system messages (success/error notifications) -->
+  {% if messages %}
+  <div class="messages mb-4">
+    {% for message in messages %}
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Main card containing all skills -->
+  <div class="card shadow-sm mb-4">
+    <!-- Card header with title and action buttons -->
+    <div
+      class="card-header bg-light py-3 d-flex justify-content-between align-items-center"
+    >
+      <h4 class="mb-0">
+        <i class="fas fa-list text-primary me-2"></i>All Skills
+      </h4>
+      <div>
+        <!-- Button to fix duplicate categories -->
+        <a
+          href="{% url 'normalize_skill_categories' %}"
+          class="btn btn-outline-primary me-2"
+          title="Fix duplicate categories"
+        >
+          <i class="fas fa-broom me-1"></i>Fix Duplicates
+        </a>
+        <!-- Button to add a new skill -->
+        <a href="{% url 'admin_add_skill' %}" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i>Add New Skill
+        </a>
+      </div>
+    </div>
+    <div class="card-body">
+      <!-- Search and filter controls could be added here -->
+
+      <div class="mt-3">
+        <!-- Skills organized by category in an accordion -->
+        {% if categories %}
+        <div class="accordion" id="skillsAccordion">
+          {% for category, skills in categories.items %}
+          <div class="accordion-item">
+            <!-- Accordion header for each category -->
+            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+              <button
+                class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse{{ forloop.counter }}"
+                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-controls="collapse{{ forloop.counter }}"
+              >
+                <i class="fas fa-tag me-2"></i><strong>{{ category }}</strong>
+                <span class="ms-2 badge bg-primary rounded-pill"
+                  >{{ skills|length }}</span
+                >
+              </button>
+            </h2>
+            <!-- Accordion content (skills table) -->
+            <div
+              id="collapse{{ forloop.counter }}"
+              class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+              aria-labelledby="heading{{ forloop.counter }}"
+              data-bs-parent="#skillsAccordion"
+            >
+              <div class="accordion-body">
+                <div class="table-responsive">
+                  <!-- Table of skills for this category -->
+                  <table class="table table-hover table-striped">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th class="text-end">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for skill in skills %}
+                      <tr>
+                        <td>{{ skill.name }}</td>
+                        <td>{{ skill.description|truncatechars:100 }}</td>
+                        <td class="text-end">
+                          <!-- Edit button for each skill -->
+                          <a
+                            href="{% url 'admin_edit_skill' skill.id %}"
+                            class="btn btn-sm btn-outline-primary me-1"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <!-- Delete button for each skill -->
+                          <a
+                            href="{% url 'admin_delete_skill' skill.id %}"
+                            class="btn btn-sm btn-outline-danger"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <!-- Message shown when no skills exist -->
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>No skills have been added to
+          the system yet.
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
